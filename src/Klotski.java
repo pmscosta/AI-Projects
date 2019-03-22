@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import Node.*;
 
 public class Klotski implements Comparable<Klotski> {
 
@@ -17,6 +16,8 @@ public class Klotski implements Comparable<Klotski> {
         this.map = map;
         this.blocks = new HashMap<>();
         this.createBlocks();
+
+        this.blocks.get(new Point(4,0)).getPossibleMoves();
     }
 
 
@@ -55,10 +56,10 @@ public class Klotski implements Comparable<Klotski> {
                 if(block_value != -1){
 
                     if(block_value == 4){
-                        this.BigSquare = new Block(i, j, block_value);
+                        this.BigSquare = new Block(i, j, block_value, this);
                         this.blocks.put(new Point(i, j), BigSquare);
                     }else{
-                        this.blocks.put(new Point(i, j), new Block(i, j, block_value) );
+                        this.blocks.put(new Point(i, j), new Block(i, j, block_value, this) );
                     }
 
                 removeUsedBlocks(i, j, block_value);
@@ -92,7 +93,6 @@ public class Klotski implements Comparable<Klotski> {
             default:
                 return;
         }
-
     }
 
 
