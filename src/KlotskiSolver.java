@@ -13,7 +13,7 @@ public class KlotskiSolver{
 
         queue.add(klotski);
 
-        klotski.printMap();
+        klotski.printMap(klotski.map);
 
         klotski.printHashMap();
     }

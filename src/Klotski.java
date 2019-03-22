@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import Node.*;
@@ -9,6 +10,8 @@ public class Klotski implements Comparable<Klotski> {
     public Block BigSquare;
 
     public int[][] map;
+
+    public ArrayList<int[][]> maps; 
 
     public Klotski(int[][] map) {
         this.map = map;
@@ -65,22 +68,46 @@ public class Klotski implements Comparable<Klotski> {
         }
     }
 
-    public void printMap(){
-        for (int i = 0; i < this.map.length; i++) {
-            for (int j = 0; j < this.map[i].length; j++) {
-                System.out.print("\t" + this.map[i][j]);
-            }
-            System.out.println();
+    public void addBlock(int[][] map, Block e){
+
+        int i = e.x;
+        int j = e.y;
+
+        switch(e.type){
+            case 1: 
+                map[i][j] = e.type; 
+                return;
+            case 2: 
+                map[i][j] = e.type; 
+                map[i][j+1] = e.type;
+                return;
+            case 3: 
+                map[i][j] = e.type;
+                map[i+1][j] = e.type;
+            case 4: 
+                map[i][j] = e.type;
+                map[i][j+1] = e.type;
+                map[i+1][j] = e.type;
+                map[i+1][j +1] = e.type;
+            default:
+                return;
         }
+
     }
 
-    public void printHashMap(){
 
-        for(Block b : this.blocks.values()){
-            System.out.println(b);
+    public int[][] constructMap(){
+
+        int[][] map = new int[5][4];
+
+        for(Block e : this.blocks.values()){
+            addBlock(map, e);
         }
 
+        return map;
     }
+
+
 
 
 
@@ -135,6 +162,25 @@ public class Klotski implements Comparable<Klotski> {
             return -1;
         else
             return 0;
-	}
+    }
+    
+
+
+    public void printMap(int[][] map){
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                System.out.print("\t" + map[i][j]);
+            }
+            System.out.println();
+        }
+    }
+
+    public void printHashMap(){
+
+        for(Block b : this.blocks.values()){
+            System.out.println(b);
+        }
+
+    }
 
 }
