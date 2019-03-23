@@ -7,6 +7,8 @@ public class KlotskiSolver {
 
     private int[][] starting_map = { { 1, 4, 4, 1 }, { 1, 4, 4, 1 }, { 2, 3, 3, 2 }, { 2, 1, 1, 2 }, { 1, 0, 0, 1 } };
 
+    private int[][] original_map = { { 2, 4, 4, 2 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 2, 1, 1, 2 }, { 1, 0, 0, 1 } };
+
     private int[][] starting_easy = { { 1, 4, 4, 1 }, { 1, 4, 4, 1 }, { 2, 1, 1, 2 }, { 2, 1, 1, 2 }, { 1, 0, 0, 1 } };
 
     private int[][] test_vertical = { { 0, 0, 0, 0 }, { 0, 2, 0, 0 }, { 2, 2, 0, 0 }, { 2, 0, 0, 0 }, { 0, 0, 0, 0 } };
