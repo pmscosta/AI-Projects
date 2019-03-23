@@ -10,39 +10,28 @@ public class Klotski implements Comparable<Klotski> {
 
     public int[][] map;
 
-    public ArrayList<int[][]> maps; 
-
     public Klotski(int[][] map) {
         this.map = map;
         this.blocks = new HashMap<>();
         this.createBlocks();
-
-        this.blocks.get(new Point(4,0)).getPossibleMoves();
     }
 
+    public boolean isSolution() {
+        return this.blocks.get(new Point(3, 2)).x == 3 && this.blocks.get(new Point(3, 1)).y == 1
+                && this.blocks.get(new Point(3, 1)).type == 4;
+    }
 
-    public void removeUsedBlocks(int i, int j, int value){
+    public ArrayList<Klotski> getNextBoards() {
 
-        switch(value){
+        ArrayList<Klotski> games = new ArrayList<>();
 
-            case 1: 
-                this.map[i][j] = -1; 
-                return;
-            case 2: 
-                this.map[i][j] = -1; 
-                this.map[i][j+1] = -1;
-                return;
-            case 3: 
-                this.map[i][j] = -1;
-                this.map[i+1][j] = -1;
-            case 4: 
-                this.map[i][j] = -1;
-                this.map[i][j+1] = -1;
-                this.map[i+1][j] = -1;
-                this.map[i+1][j +1] = -1;
-            default:
-                return;
+        for (Block e : this.blocks.values()) {
+            if (e.type != 0)
+                games.addAll(e.getNextBoards());
         }
+
+        return games;
+
     }
 
     public void createBlocks() {
@@ -53,132 +42,124 @@ public class Klotski implements Comparable<Klotski> {
 
                 int block_value = this.map[i][j];
 
-                if(block_value != -1){
+                if (block_value != -1) {
 
-                    if(block_value == 4){
-                        this.BigSquare = new Block(i, j, block_value, this);
-                        this.blocks.put(new Point(i, j), BigSquare);
-                    }else{
-                        this.blocks.put(new Point(i, j), new Block(i, j, block_value, this) );
-                    }
+                    Block block = new Block(i, j, block_value, this);
 
-                removeUsedBlocks(i, j, block_value);
+                    if (block_value == 4)
+                        this.BigSquare = block;
+
+                    this.blocks.put(new Point(i, j), block);
+
+                    removeUsedBlocks(i, j, block);
 
                 }
             }
         }
     }
 
-    public void addBlock(int[][] map, Block e){
+    public void removeUsedBlocks(int i, int j, Block block) {
 
-        int i = e.x;
-        int j = e.y;
+        switch (block.type) {
 
-        switch(e.type){
-            case 1: 
-                map[i][j] = e.type; 
-                return;
-            case 2: 
-                map[i][j] = e.type; 
-                map[i][j+1] = e.type;
-                return;
-            case 3: 
-                map[i][j] = e.type;
-                map[i+1][j] = e.type;
-            case 4: 
-                map[i][j] = e.type;
-                map[i][j+1] = e.type;
-                map[i+1][j] = e.type;
-                map[i+1][j +1] = e.type;
-            default:
-                return;
+        case 1:
+            this.map[i][j] = -1;
+            return;
+        case 2:
+            this.map[i][j] = -1;
+            this.map[i + 1][j] = -1;
+            this.blocks.put(new Point(i + 1, j), block);
+            return;
+        case 3:
+            this.map[i][j] = -1;
+            this.map[i][j + 1] = -1;
+            this.blocks.put(new Point(i, j + 1), block);
+            return;
+        case 4:
+            this.map[i][j] = -1;
+            this.map[i][j + 1] = -1;
+            this.map[i + 1][j] = -1;
+            this.map[i + 1][j + 1] = -1;
+            this.blocks.put(new Point(i, j + 1), block);
+            this.blocks.put(new Point(i + 1, j), block);
+            this.blocks.put(new Point(i + 1, j + 1), block);
+            return;
+        default:
+            return;
         }
     }
 
-
-    public int[][] constructMap(){
+    public int[][] constructMap() {
 
         int[][] map = new int[5][4];
 
-        for(Block e : this.blocks.values()){
-            addBlock(map, e);
+        for (Point p : this.blocks.keySet()) {
+
+            Block e = this.blocks.get(p);
+            map[p.x][p.y] = e.type;
+
         }
 
         return map;
     }
 
-
-
-
-
     // OVERRIDE METHODS FOR PRIORITY QUEUE
 
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((blocks == null) ? 0 : blocks.hashCode());
-		result = prime * result + Arrays.deepHashCode(map);
-		return result;
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Klotski other = (Klotski) obj;
-		if (blocks == null) {
-			if (other.blocks != null)
-				return false;
-		} else if (!blocks.equals(other.blocks))
-			return false;
-		if (!Arrays.deepEquals(map, other.map))
-			return false;
-		return true;
-    }
-    
-    public int manhattanDistance(int x1, int y1, int x0, int y0){
-        return Math.abs(x1-x0) + Math.abs(y1-y0);
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((blocks == null) ? 0 : blocks.hashCode());
+        result = prime * result + Arrays.deepHashCode(map);
+        return result;
     }
 
-    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Klotski other = (Klotski) obj;
 
-	@Override
-	public int compareTo(Klotski o) {
+        int[][] lhs_map = this.constructMap();
+        int[][] rhs_map = other.constructMap();
+
+        if (!Arrays.deepEquals(lhs_map, rhs_map))
+            return false;
+
+        return true;
+    }
+
+    public int manhattanDistance(int x1, int y1, int x0, int y0) {
+        return Math.abs(x1 - x0) + Math.abs(y1 - y0);
+    }
+
+    @Override
+    public int compareTo(Klotski o) {
 
         int distance1 = manhattanDistance(this.BigSquare.x, this.BigSquare.y, 3, 1);
 
         int distance2 = manhattanDistance(o.BigSquare.x, o.BigSquare.y, 3, 1);
 
-        if(distance1 < distance2)
+        if (distance1 < distance2)
             return 1;
-        else if(distance1 > distance2)
+        else if (distance1 > distance2)
             return -1;
         else
             return 0;
     }
-    
 
+    public void printHashMap() {
 
-    public void printMap(int[][] map){
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
-                System.out.print("\t" + map[i][j]);
-            }
-            System.out.println();
-        }
-    }
+        for (Point p : this.blocks.keySet()) {
 
-    public void printHashMap(){
+            System.out.print(p);
+            System.out.print('\t');
+            System.out.println(this.blocks.get(p));
 
-        for(Block b : this.blocks.values()){
-            System.out.println(b);
         }
 
     }
