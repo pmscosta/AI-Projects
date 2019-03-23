@@ -17,17 +17,19 @@ public class KlotskiSolver {
 
     public void start() {
 
-        Klotski klotski = new Klotski(starting_map);
+        Klotski klotski = new Klotski(starting_easy);
 
         queue.add(klotski);
 
         System.out.println("Original:\n");
         Utilities.printMap(klotski.constructMap());
 
-        this.solve();
+        this.breath_first();
+
+        // this.depth_first(klotski);
     }
 
-    public void solve() {
+    public void breath_first() {
         while (!queue.isEmpty()) {
 
             Klotski klotski = queue.poll();
@@ -46,6 +48,24 @@ public class KlotskiSolver {
                     visited.add(nextPuzzle);
                 }
 
+            }
+        }
+
+    }
+
+    public void depth_first(Klotski klotski) {
+
+        if (klotski.isSolution()) {
+            System.out.println("\nSolution:\n");
+            queue.clear();
+            return;
+        }
+
+        visited.add(klotski);
+
+        for (Klotski nextPuzzle : klotski.getNextBoards()) {
+            if (!visited.contains(nextPuzzle)) {
+                depth_first(klotski);
             }
         }
 
