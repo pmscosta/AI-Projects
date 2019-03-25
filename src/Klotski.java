@@ -137,10 +137,32 @@ public class Klotski implements Comparable<Klotski> {
         return Math.abs(x1 - x0) + Math.abs(y1 - y0);
     }
 
-    @Override
-    public int compareTo(Klotski o) {
+    public int calculateEmptySpotsUnderBigSquare(){
+        int x = this.BigSquare.x;
+        int y = this.BigSquare.y;
+        int emptySpots=x*8 + 1;
 
-        int distance1 = manhattanDistance(this.BigSquare.x, this.BigSquare.y, 3, 1);
+        for(int i = x+2; i<this.map.length;i++){
+            //System.out.println("LIne : " + );
+            if(map[i][y] == 0)
+                emptySpots+=this.map.length-i +1;
+            if(map[i][y+1] == 0)
+                emptySpots+=this.map.length-i +1;
+        }
+        return emptySpots;
+
+    }
+
+    public int calculateH(){
+        int numberOfEmptySpotsUnderBigSquare = calculateEmptySpotsUnderBigSquare();
+
+        return numberOfEmptySpotsUnderBigSquare;
+    }
+
+    @Override
+    public int compareTo(Klotski that) {
+
+      /*  int distance1 = manhattanDistance(this.BigSquare.x, this.BigSquare.y, 3, 1);
 
         int distance2 = manhattanDistance(o.BigSquare.x, o.BigSquare.y, 3, 1);
 
@@ -149,7 +171,17 @@ public class Klotski implements Comparable<Klotski> {
         else if (distance1 > distance2)
             return -1;
         else
-            return 0;
+            return 0;*/
+
+      int hThis = this.calculateH();
+      int hThat = that.calculateH();
+
+      if(hThis < hThat)
+          return 1;
+      else if(hThis>hThat)
+          return -1;
+      else
+          return 0;
     }
 
     public void printHashMap() {
