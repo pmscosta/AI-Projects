@@ -6,12 +6,14 @@ public class Klotski implements Comparable<Klotski> {
 
     public HashMap<Point, Block> blocks;
 
+    public int g=0;
+
     public Block BigSquare;
 
     public int[][] map;
 
     public Klotski(int[][] map) {
-        this.map = map;
+        this.map = map.clone();
         this.blocks = new HashMap<>();
         this.createBlocks();
     }
@@ -137,6 +139,22 @@ public class Klotski implements Comparable<Klotski> {
         return Math.abs(x1 - x0) + Math.abs(y1 - y0);
     }
 
+
+    public int calculateEmptySpotsUnderBigSquareMinimizing(){
+        int x = this.BigSquare.x;
+        int y = this.BigSquare.y;
+        int emptySpots=(this.map.length - x)*8 + 1;
+
+        for(int i = x+2; i<this.map.length;i++){
+            if(map[i][y] == 0)
+                emptySpots+=i +1;
+            if(map[i][y+1] == 0)
+                emptySpots+=i +1;
+        }
+        return emptySpots;
+
+    }
+
     public int calculateEmptySpotsUnderBigSquare(){
         int x = this.BigSquare.x;
         int y = this.BigSquare.y;
@@ -154,6 +172,12 @@ public class Klotski implements Comparable<Klotski> {
 
     public int calculateH(){
         int numberOfEmptySpotsUnderBigSquare = calculateEmptySpotsUnderBigSquare();
+
+        return numberOfEmptySpotsUnderBigSquare;
+    }
+
+    public int calculateHMinimizing(){
+        int numberOfEmptySpotsUnderBigSquare = calculateEmptySpotsUnderBigSquareMinimizing();
 
         return numberOfEmptySpotsUnderBigSquare;
     }

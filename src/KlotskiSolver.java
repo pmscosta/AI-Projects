@@ -21,7 +21,23 @@ public class KlotskiSolver {
                 return 0;
         }
     });
-    private final Set<Klotski> visited = new HashSet<>();
+    private PriorityQueue<Klotski> priorityQueueStar = new PriorityQueue<Klotski>(30, new Comparator<Klotski>() {
+        @Override
+        public int compare(Klotski klotski, Klotski that) {
+
+            int finalThis = klotski.calculateHMinimizing() + klotski.g;
+            int finalThat = that.calculateHMinimizing() + that.g;
+
+            if(finalThis < finalThat)
+                return 1;
+            else if(finalThis>finalThat)
+                return -1;
+            else
+                return 0;
+        }
+    });
+
+    private Set<Klotski> visited = new HashSet<>();
 
     private int[][] starting_map = { { 1, 4, 4, 1 }, { 1, 4, 4, 1 }, { 2, 1, 1, 2 }, { 2, 1, 1, 2 }, { 1, 0, 0, 1 } };
 
@@ -38,18 +54,28 @@ public class KlotskiSolver {
     private int[][] test_vh = { { 0, 3, 3, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
 
     private int[][] hard = { { 1, 4, 4, 1 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 1, 3, 3, 1 }, { 0, 3, 3, 0 } };
+    private int[][] hard2 = { { 1, 4, 4, 1 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 1, 3, 3, 1 }, { 0, 3, 3, 0 } };
+    private int[][] hard3 = { { 1, 4, 4, 1 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 1, 3, 3, 1 }, { 0, 3, 3, 0 } };
 
     public void start() {
 
-        Klotski klotski = new Klotski(hard);
+        Klotski klotski = new Klotski(hard.clone());
+        Klotski klotski2 = new Klotski(hard2.clone());
+        Klotski klotski3 = new Klotski(hard3.clone());
 
-        priorityQueue.add(klotski);
-
-        System.out.println("Original:\n");
-        
-        System.out.println("\n");
-
+        priorityQueueStar.add(klotski);
         this.astar();
+
+        this.visited = new HashSet<>();
+
+        priorityQueue.add(klotski2);
+        this.greedy();
+
+        this.visited = new HashSet<>();
+
+        queue.add(klotski3);
+        this.depth_first();
+
 
     }
 
@@ -62,7 +88,7 @@ public class KlotskiSolver {
         }
 
     }
-    public void astar() {
+    public void greedy() {
         int steps=0;
         while (!priorityQueue.isEmpty()) {
             steps++;
@@ -80,6 +106,35 @@ public class KlotskiSolver {
                 if (!visited.contains(nextPuzzle)) {
 
                     priorityQueue.add(nextPuzzle);
+                    visited.add(nextPuzzle);
+                }
+
+            }
+        }
+
+        System.out.println("Found no solution with " + steps + " steps");
+
+    }
+
+
+    public void astar() {
+        int steps=0;
+        while (!priorityQueueStar.isEmpty()) {
+            steps++;
+            Klotski klotski = priorityQueueStar.poll();
+
+            if (klotski.isSolution()) {
+                System.out.println("\nSteps="+steps  + "\nSolution:\n");
+                Utilities.printMap(klotski.constructMap());
+                priorityQueueStar.clear();
+                return;
+            }
+
+            for (Klotski nextPuzzle : klotski.getNextBoards()) {
+
+                if (!visited.contains(nextPuzzle)) {
+
+                    priorityQueueStar.add(nextPuzzle);
                     visited.add(nextPuzzle);
                 }
 
