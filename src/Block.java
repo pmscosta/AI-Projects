@@ -24,6 +24,10 @@ public class Block {
 
 			int[][] keep_map = this.game.constructMap();
 
+			int keep_x = this.x;
+
+			int keep_y = this.y;
+
 			Point currentPoint = new Point(this.x, this.y);
 
 			switch (this.type) {
@@ -53,6 +57,8 @@ public class Block {
 				break;
 			}
 
+			this.x = keep_x;
+			this.y = keep_y;
 			this.game.map = keep_map;
 			this.game.createBlocks();
 		}
