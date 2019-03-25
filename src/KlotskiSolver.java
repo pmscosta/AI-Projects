@@ -7,7 +7,20 @@ import java.io.IOException;
 public class KlotskiSolver {
 
     private Queue<Klotski> queue = new LinkedList<>();
-    private PriorityQueue<Klotski> priorityQueue = new PriorityQueue<Klotski>();
+    private PriorityQueue<Klotski> priorityQueue = new PriorityQueue<Klotski>(30, new Comparator<Klotski>() {
+        @Override
+        public int compare(Klotski klotski, Klotski that) {
+            int hThis = klotski.calculateH();
+            int hThat = that.calculateH();
+
+            if(hThis < hThat)
+                return 1;
+            else if(hThis>hThat)
+                return -1;
+            else
+                return 0;
+        }
+    });
     private final Set<Klotski> visited = new HashSet<>();
 
     private int[][] starting_map = { { 1, 4, 4, 1 }, { 1, 4, 4, 1 }, { 2, 1, 1, 2 }, { 2, 1, 1, 2 }, { 1, 0, 0, 1 } };
@@ -28,7 +41,7 @@ public class KlotskiSolver {
 
     public void start() {
 
-        Klotski klotski = new Klotski(starting_map);
+        Klotski klotski = new Klotski(hard);
 
         priorityQueue.add(klotski);
 
@@ -38,7 +51,6 @@ public class KlotskiSolver {
 
         this.astar();
 
-        // this.depth_first(klotski);
     }
 
     public void printQueue(PriorityQueue<Klotski> queue){
@@ -55,13 +67,7 @@ public class KlotskiSolver {
         while (!priorityQueue.isEmpty()) {
             steps++;
             Klotski klotski = priorityQueue.poll();
-            //Utilities.printMap(klotski.constructMap());
-            /*try{
-              //  System.out.println(klotski.calculateH());
-            System.in.read();
-            }catch(IOException e){
-                e.printStackTrace();
-            }*/
+
             if (klotski.isSolution()) {
                 System.out.println("\nSteps="+steps  + "\nSolution:\n");
                 Utilities.printMap(klotski.constructMap());
@@ -78,8 +84,6 @@ public class KlotskiSolver {
                 }
 
             }
-
-            // printQueue(queue);
         }
 
         System.out.println("Found no solution with " + steps + " steps");
@@ -91,13 +95,7 @@ public class KlotskiSolver {
         while (!queue.isEmpty()) {
             steps++;
             Klotski klotski = queue.poll();
-             //Utilities.printMap(klotski.constructMap());
-            /*try{
-              //  System.out.println(klotski.calculateH());
-            System.in.read();
-            }catch(IOException e){
-                e.printStackTrace();
-            }*/
+
             if (klotski.isSolution()) {
                 System.out.println("\nSteps="+steps  + "\nSolution:\n");
                 Utilities.printMap(klotski.constructMap());
@@ -115,7 +113,7 @@ public class KlotskiSolver {
 
             }
 
-           // printQueue(queue);
+
         }
 
         System.out.println("Found no solution with " + steps + " steps");
