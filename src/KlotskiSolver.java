@@ -147,13 +147,12 @@ public class KlotskiSolver {
             }            
 
             for (Klotski nextPuzzle : klotski.getNextBoards()) {
-               
                 nextPuzzle.g = klotski.g;
                 nextPuzzle.g+= 1;
 
-
                 if (!visited.contains(nextPuzzle)) {
                     Integer f = mapF.get(nextPuzzle);
+                    
                     if(f == null){
                         priorityQueueStar.add(nextPuzzle);
                         mapF.put(nextPuzzle, nextPuzzle.g);
