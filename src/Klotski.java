@@ -143,13 +143,13 @@ public class Klotski implements Comparable<Klotski> {
     public int calculateEmptySpotsUnderBigSquareMinimizing(){
         int x = this.BigSquare.x;
         int y = this.BigSquare.y;
-        int emptySpots= (int) ((this.map.length - x)*4.5);
+        int emptySpots= (this.map.length - x +1)*4;
 
         for(int i = x+2; i<this.map.length;i++){
-            if(map[i][y] == 0)
-                emptySpots+=i +1;
-            if(map[i][y+1] == 0)
-                emptySpots+=i +1;
+            if(map[i][y] != 0)
+                emptySpots+=i;
+            if(map[i][y+1] != 0)
+                emptySpots+=i;
         }
         return emptySpots;
 
@@ -158,7 +158,7 @@ public class Klotski implements Comparable<Klotski> {
     public int calculateEmptySpotsUnderBigSquare(){
         int x = this.BigSquare.x;
         int y = this.BigSquare.y;
-        int emptySpots=x*8 + 1;
+        int emptySpots=x*4 + 1;
 
         for(int i = x+2; i<this.map.length;i++){
             if(map[i][y] == 0)

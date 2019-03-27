@@ -28,9 +28,9 @@ public class KlotskiSolver {
             int finalThis = klotski.calculateHMinimizing() + klotski.g;
             int finalThat = that.calculateHMinimizing() + that.g;
 
-            if(finalThis < finalThat)
+            if(finalThis > finalThat)
                 return 1;
-            else if(finalThis>finalThat)
+            else if(finalThis <finalThat)
                 return -1;
             else
                 return 0;
@@ -53,9 +53,10 @@ public class KlotskiSolver {
 
     private int[][] test_vh = { { 0, 3, 3, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
 
-    private int[][] hard = { { 1, 4, 4, 1 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 1, 3, 3, 1 }, { 0, 3, 3, 0 } };
-    private int[][] hard2 = { { 1, 4, 4, 1 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 1, 3, 3, 1 }, { 0, 3, 3, 0 } };
-    private int[][] hard3 = { { 1, 4, 4, 1 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 1, 3, 3, 1 }, { 0, 3, 3, 0 } };
+    private int[][] hard = { { 0, 4, 4, 0 }, { 0, 4, 4, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
+    private int[][] hard2 = { { 0, 4, 4, 0 }, { 0, 4, 4, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
+    private int[][] hard3 = { { 0, 4, 4, 0 }, { 0, 4, 4, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
+    private int[][] hard4 = { { 0, 4, 4, 0 }, { 0, 4, 4, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
 
     public void start() {
 
@@ -63,6 +64,7 @@ public class KlotskiSolver {
         Klotski klotski = new Klotski(hard.clone());
         Klotski klotski2 = new Klotski(hard2.clone());
         Klotski klotski3 = new Klotski(hard3.clone());
+        Klotski klotski4 = new Klotski(hard4.clone());
 
 
         priorityQueueStar.add(klotski);
@@ -76,16 +78,18 @@ public class KlotskiSolver {
         this.visited = new HashSet<>();
 
         stack.add(klotski3);
-        queue.add(klotski);
+        queue.add(klotski4);
         this.depth_first();
 
+        this.visited = new HashSet<>();
+        this.breath_first();
 
 
-        System.out.println("Original:\n");
+       // System.out.println("Original:\n");
 
-        Utilities.printMap(klotski.constructMap());
+//        Utilities.printMap(klotski.constructMap());
 
-        System.out.println("\n");
+        //System.out.println("\n");
 
 
     }
@@ -107,8 +111,8 @@ public class KlotskiSolver {
             Klotski klotski = priorityQueue.poll();
 
             if (klotski.isSolution()) {
-                System.out.println("\nSteps=" + steps + "\nSolution:\n");
-                Utilities.printMap(klotski.constructMap());
+                System.out.println("\nGreedy - Iterations=" + steps + "\nSolution steps: " + klotski.g+ "\n");
+                //Utilities.printMap(klotski.constructMap());
                 priorityQueue.clear();
                 return;
             }
@@ -136,8 +140,10 @@ public class KlotskiSolver {
             Klotski klotski = priorityQueueStar.poll();
 
             if (klotski.isSolution()) {
-                System.out.println("\nSteps="+steps  + "\nSolution:\n");
-                Utilities.printMap(klotski.constructMap());
+                System.out.println("\nA* - Iterations=" + steps + "\nSolution steps: " + klotski.g);
+                System.out.println("Final calc= " + (klotski.calculateHMinimizing()+ klotski.g));
+
+                //Utilities.printMap(klotski.constructMap());
                 priorityQueueStar.clear();
                 return;
             }
@@ -164,8 +170,8 @@ public class KlotskiSolver {
             Klotski klotski = queue.poll();
 
             if (klotski.isSolution()) {
-                System.out.println("\nSteps=" + steps + "\nSolution:\n");
-                Utilities.printMap(klotski.constructMap());
+                System.out.println("\nBreath - Iterations=" + steps + "\nSolution steps: " + klotski.g+ "\n");
+                //Utilities.printMap(klotski.constructMap());
                 queue.clear();
                 return;
             }
@@ -194,8 +200,8 @@ public class KlotskiSolver {
             Klotski klotski = stack.pop();
 
             if (klotski.isSolution()) {
-                System.out.println("\nSteps=" + steps + "\nSolution:\n");
-                Utilities.printMap(klotski.constructMap());
+                System.out.println("\nDepth - Iterations=" + steps + "\nSolution steps: " + klotski.g+ "\n");
+                //Utilities.printMap(klotski.constructMap());
                 stack.clear();
                 return;
             }

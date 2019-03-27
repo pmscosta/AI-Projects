@@ -33,29 +33,23 @@ public class Block {
 			switch (this.type) {
 			case 1:
 				nextBoard = SimpleSquare.getNextBoard(e, currentPoint, this.game);
-				if (nextBoard != null) {
-					moves.add(nextBoard);
-				}
 				break;
 			case 2:
 				nextBoard = VerticalRectangle.getNextBoard(e, currentPoint, this.game);
-				if (nextBoard != null) {
-					moves.add(nextBoard);
-				}
 				break;
 			case 3:
 				nextBoard = HorizontalRectangle.getNextBoard(e, currentPoint, this.game);
-				if (nextBoard != null) {
-					moves.add(nextBoard);
-				}
 				break;
 			case 4:
 				nextBoard = Square.getNextBoard(e, currentPoint, this.game);
-				if (nextBoard != null) {
-					moves.add(nextBoard);
-				}
 				break;
 			}
+
+			if (nextBoard != null) {
+				nextBoard.g=this.game.g +1;
+				moves.add(nextBoard);
+			}
+
 
 			this.x = keep_x;
 			this.y = keep_y;
