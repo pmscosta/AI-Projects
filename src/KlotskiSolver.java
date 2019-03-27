@@ -141,6 +141,7 @@ public class KlotskiSolver {
             if (klotski.isSolution()) {
                 System.out.println("\nSteps="+steps  + "\nSolution:\n");
                 System.out.println("\nMoves=" + klotski.g+ "\n");
+                printSolution(klotski);
                 Utilities.printMap(klotski.constructMap());
                 priorityQueueStar.clear();
                 return;
@@ -152,13 +153,15 @@ public class KlotskiSolver {
 
                 if (!visited.contains(nextPuzzle)) {
                     Integer f = mapF.get(nextPuzzle);
-                    
+
                     if(f == null){
+                        nextPuzzle.parent = klotski;
                         priorityQueueStar.add(nextPuzzle);
                         mapF.put(nextPuzzle, nextPuzzle.g);
                     }
                     else{
                         if(nextPuzzle.g < f){
+                            nextPuzzle.parent = klotski;
                             mapF.put(nextPuzzle, nextPuzzle.g);
                             priorityQueueStar.remove(nextPuzzle);
                             priorityQueueStar.add(nextPuzzle);
@@ -171,6 +174,22 @@ public class KlotskiSolver {
 
         System.out.println("Found no solution with " + steps + " steps");
 
+    }
+
+    private void printSolution(Klotski klotski) {
+        int i = -1;
+        LinkedList<Klotski> list = new LinkedList<>();
+        
+        while(klotski.parent != null){
+            list.addFirst(klotski);
+            klotski = klotski.parent;
+        }
+        list.addFirst(klotski);
+
+        for (Klotski elem : list) {
+            System.out.println(++i);
+            Utilities.printMap(elem.constructMap());
+        }
     }
 
     public void breath_first() {

@@ -1,6 +1,13 @@
-public class VerticalRectangle {
+public class VerticalRectangle extends Block{
 
-    public static Klotski getNextBoard(Utilities.Direction e, Point current_point, Klotski game) {
+    public VerticalRectangle(int x, int y, int type, Klotski klotski) {
+        super(x, y, type, klotski);
+    }
+
+    @Override
+    public Klotski getNextBoard(Utilities.Direction e) {
+
+        Point current_point = new Point(x, y);
 
         switch (e) {
 

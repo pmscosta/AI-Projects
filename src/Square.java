@@ -1,6 +1,12 @@
-public class Square {
+public class Square extends Block{
 
-    public static Klotski getNextBoard(Utilities.Direction e, Point current_point, Klotski game) {
+    public Square(int x, int y, int type, Klotski klotski) {
+        super(x, y, type, klotski);
+    }
+
+    @Override
+    public Klotski getNextBoard(Utilities.Direction e) {
+        Point current_point = new Point(x, y);
 
         switch (e) {
         case UP: {
