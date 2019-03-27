@@ -32,37 +32,22 @@ public class Klotski implements Comparable<Klotski> {
 
     public ArrayList<Klotski> getNextBoards() {
 
-        Set<Block> eligebleBlocks = new HashSet<>();
+        Set<Block> eligibleBlocks = new HashSet<>();
 
         Block block;
 
         for (Block elem : empty) {
-
-            block = this.blocks.get(new Point(elem.x - 1, elem.y));
-            if(block != null && block.type != 0){
-                eligebleBlocks.add(block);
-            }
-
-            block = this.blocks.get(new Point(elem.x + 1, elem.y));
-            if(block != null && block.type != 0){
-                eligebleBlocks.add(block);
-            }
-
-            block = this.blocks.get(new Point(elem.x, elem.y - 1));
-            if(block != null && block.type != 0){
-                eligebleBlocks.add(block);
-            }
-
-            block = this.blocks.get(new Point(elem.x, elem.y + 1));
-            if(block != null && block.type != 0){
-                eligebleBlocks.add(block);
-            }
-            
+            for(Utilities.Direction direction : Utilities.DIRECTIONS){
+                block = this.blocks.get(new Point(elem.x + direction.x, elem.y + direction.y));
+                if(block != null && block.type != 0){
+                    eligibleBlocks.add(block);
+                }
+            }           
         }
 
         ArrayList<Klotski> games = new ArrayList<>();
 
-        for (Block e : eligebleBlocks) {
+        for (Block e : eligibleBlocks) {
             if (e.type != 0)
                 games.addAll(e.getNextBoards());
         }
