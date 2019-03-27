@@ -5,6 +5,9 @@ public class SimpleSquare {
         int next_x = current_point.x + e.x;
         int next_y = current_point.y + e.y;
 
+        if (next_x < 0 || next_x > 4 || next_y < 0 || next_y > 3)
+            return null;
+
         Block current = game.blocks.get(current_point);
 
         Point next_point = new Point(next_x, next_y);

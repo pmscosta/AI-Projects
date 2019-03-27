@@ -7,14 +7,13 @@ public class Square {
 
             Block current = game.blocks.get(current_point);
 
+            if (current.x < 1 || current.x > 4 || current.y < 0 || current.y > 3)
+                break;
             Point up_point = new Point(current.x - 1, current.y);
             Point up_point_right = new Point(current.x - 1, current.y + 1);
 
             Block up = game.blocks.get(up_point);
             Block up_right = game.blocks.get(up_point_right);
-
-            if (current.x < 1)
-                break;
 
             if (up == null || up_right == null) {
                 break;
@@ -40,15 +39,14 @@ public class Square {
 
             Block current = game.blocks.get(current_point);
 
+            if (current.x > 3 || current.x < 0 || current.y < 0 || current.y > 3) {
+                break;
+            }
             Point down_point = new Point(current.x + 2, current.y);
             Point down_point_right = new Point(current.x + 2, current.y + 1);
 
             Block down = game.blocks.get(down_point);
             Block down_right = game.blocks.get(down_point_right);
-
-            if (current.x > 3) {
-                break;
-            }
 
             if (down == null || down_point_right == null) {
                 break;
@@ -73,14 +71,13 @@ public class Square {
         case LEFT: {
 
             Block current = game.blocks.get(current_point);
+            if (current.y < 1 || current.y > 3 || current.x < 0 || current.x > 4)
+                break;
             Point left_point = new Point(current.x, current.y - 1);
             Point left_point_down = new Point(current.x + 1, current.y - 1);
 
             Block left = game.blocks.get(left_point);
             Block left_down = game.blocks.get(left_point_down);
-
-            if (current.y < 1)
-                break;
 
             if (left == null || left_down == null)
                 break;
@@ -104,15 +101,14 @@ public class Square {
         case RIGHT: {
 
             Block current = game.blocks.get(current_point);
+            if (current.y > 2 || current.y < 0 || current.x < 0 || current.x > 4) {
+                break;
+            }
             Point right_point = new Point(current.x, current.y + 2);
             Point right_point_down = new Point(current.x + 1, current.y + 2);
 
             Block right = game.blocks.get(right_point);
             Block right_down = game.blocks.get(right_point_down);
-
-            if (current.y > 2) {
-                break;
-            }
 
             if (right == null || right_down == null) {
                 break;
@@ -133,6 +129,8 @@ public class Square {
 
             break;
         }
+        default:
+            break;
 
         }
 

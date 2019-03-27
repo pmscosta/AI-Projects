@@ -4,43 +4,43 @@ public class VerticalRectangle {
 
         switch (e) {
 
-        case UP2: {
+        // case UP2: {
 
-            Block current = game.blocks.get(current_point);
+        // Block current = game.blocks.get(current_point);
 
-            if (current.x < 2 || current.x > 3 || current.y > 3 || current.y < 0)
-                break;
+        // if (current.x < 2 || current.x > 3 || current.y > 3 || current.y < 0)
+        // break;
 
-            Point up_point = new Point(current.x - 1, current.y);
+        // Point up_point = new Point(current.x - 1, current.y);
 
-            Block up = game.blocks.get(up_point);
+        // Block up = game.blocks.get(up_point);
 
-            Point up_point_2 = new Point(current.x - 2, current.y);
+        // Point up_point_2 = new Point(current.x - 2, current.y);
 
-            Block up_2 = game.blocks.get(up_point_2);
+        // Block up_2 = game.blocks.get(up_point_2);
 
-            if (up == null || up_2 == null)
-                break;
+        // if (up == null || up_2 == null)
+        // break;
 
-            // free space up
-            if (up.type == 0 && up_2.type == 0) {
+        // // free space up
+        // if (up.type == 0 && up_2.type == 0) {
 
-                current.x = current.x - 2;
+        // current.x = current.x - 2;
 
-                game.blocks.replace(up_point, current);
+        // game.blocks.replace(up_point, current);
 
-                game.blocks.replace(up_point_2, current);
+        // game.blocks.replace(up_point_2, current);
 
-                game.blocks.replace(new Point(current.x + 3, current.y), up_2);
+        // game.blocks.replace(new Point(current.x + 3, current.y), up_2);
 
-                game.blocks.replace(current_point, up);
+        // game.blocks.replace(current_point, up);
 
-                return new Klotski(game.constructMap());
+        // return new Klotski(game.constructMap());
 
-            }
-            break;
+        // }
+        // break;
 
-        }
+        // }
 
         case UP: {
 
@@ -71,39 +71,39 @@ public class VerticalRectangle {
             break;
         }
 
-        case DOWN2: {
+        // case DOWN2: {
 
-            Block current = game.blocks.get(current_point);
+        // Block current = game.blocks.get(current_point);
 
-            if (current.x > 1 || current.x < 0 || current.y < 0 || current.y > 3) {
-                break;
-            }
+        // if (current.x > 1 || current.x < 0 || current.y < 0 || current.y > 3) {
+        // break;
+        // }
 
-            Point down_point = new Point(current.x + 2, current.y);
-            Block down = game.blocks.get(down_point);
+        // Point down_point = new Point(current.x + 2, current.y);
+        // Block down = game.blocks.get(down_point);
 
-            Point down_point_2 = new Point(current.x + 3, current.y);
-            Block down_2 = game.blocks.get(down_point_2);
+        // Point down_point_2 = new Point(current.x + 3, current.y);
+        // Block down_2 = game.blocks.get(down_point_2);
 
-            if (down == null || down_2 == null) {
-                break;
-            }
-            // free space down
-            if (down.type == 0 && down_2.type == 0) {
+        // if (down == null || down_2 == null) {
+        // break;
+        // }
+        // // free space down
+        // if (down.type == 0 && down_2.type == 0) {
 
-                current.x = current.x + 2;
+        // current.x = current.x + 2;
 
-                game.blocks.replace(current_point, down);
-                game.blocks.replace(new Point(current.x - 1, current.y), down_2);
-                game.blocks.replace(down_point, current);
-                game.blocks.replace(down_point_2, current);
+        // game.blocks.replace(current_point, down);
+        // game.blocks.replace(new Point(current.x - 1, current.y), down_2);
+        // game.blocks.replace(down_point, current);
+        // game.blocks.replace(down_point_2, current);
 
-                return new Klotski(game.constructMap());
-            }
+        // return new Klotski(game.constructMap());
+        // }
 
-            break;
+        // break;
 
-        }
+        // }
 
         case DOWN: {
             Block current = game.blocks.get(current_point);
