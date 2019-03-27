@@ -40,14 +40,14 @@ public class HorizontalRectangle {
 
             Block current = game.blocks.get(current_point);
 
+            if (current.x > 3)
+                break;
+
             Point down_point = new Point(current.x + 1, current.y);
             Point down_point_right = new Point(current.x + 1, current.y + 1);
 
             Block down = game.blocks.get(down_point);
             Block down_right = game.blocks.get(down_point_right);
-
-            if (current.x > 3)
-                break;
 
             if (down == null || down_point_right == null)
                 break;
@@ -68,16 +68,49 @@ public class HorizontalRectangle {
             break;
         }
 
-        case LEFT: {
+        case LEFT2: {
 
             Block current = game.blocks.get(current_point);
+
+            if (current.y < 2)
+                break;
 
             Point left_point = new Point(current.x, current.y - 1);
 
             Block left = game.blocks.get(left_point);
 
+            Point left_point_2 = new Point(current.x, current.y - 2);
+
+            Block left_2 = game.blocks.get(left_point_2);
+
+            if (left == null || left_2 == null)
+                break;
+
+            // free space left
+            if (left.type == 0 && left_2.type == 0) {
+
+                current.y = current.y - 2;
+
+                game.blocks.replace(left_point, current);
+                game.blocks.replace(left_point_2, current);
+                game.blocks.replace(current_point, left);
+                game.blocks.replace(new Point(current.x, current.y + 3), left_2);
+
+                return new Klotski(game.constructMap());
+            }
+            break;
+        }
+
+        case LEFT: {
+
+            Block current = game.blocks.get(current_point);
+
             if (current.y < 1)
                 break;
+
+            Point left_point = new Point(current.x, current.y - 1);
+
+            Block left = game.blocks.get(left_point);
 
             if (left == null)
                 break;
@@ -90,6 +123,39 @@ public class HorizontalRectangle {
                 game.blocks.replace(left_point, current);
 
                 game.blocks.replace(new Point(current.x, current.y + 2), left);
+
+                return new Klotski(game.constructMap());
+            }
+            break;
+        }
+
+        case RIGHT2: {
+
+            Block current = game.blocks.get(current_point);
+
+            if (current_point.y > 0 || current_point.y < 0)
+                break;
+
+            Point right_point = new Point(current.x, current.y + 2);
+
+            Block right = game.blocks.get(right_point);
+
+            Point right_point_2 = new Point(current.x, current.y + 3);
+
+            Block right_2 = game.blocks.get(right_point_2);
+
+            if (right == null || right_2 == null)
+                break;
+
+            // free space left
+            if (right.type == 0 && right_2.type == 0) {
+
+                current.y = current.y + 2;
+
+                game.blocks.replace(current_point, right);
+                game.blocks.replace(new Point(current.x, current.y - 1), right_2);
+                game.blocks.replace(right_point, current);
+                game.blocks.replace(right_point_2, current);
 
                 return new Klotski(game.constructMap());
             }
@@ -119,6 +185,9 @@ public class HorizontalRectangle {
             }
             break;
         }
+
+        default:
+            break;
 
         }
 
