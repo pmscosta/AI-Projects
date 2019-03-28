@@ -27,9 +27,9 @@ public class KlotskiSolver {
             int finalThis = klotski.calculateH() + klotski.g;
             int finalThat = that.calculateH() + that.g;
 
-            if(finalThis < finalThat)
+            if (finalThis < finalThat)
                 return -1;
-            else if(finalThis > finalThat)
+            else if (finalThis > finalThat)
                 return 1;
             else
                 return 0;
@@ -54,7 +54,7 @@ public class KlotskiSolver {
 
     private int[][] test_vh = { { 0, 3, 3, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
 
-    private int[][] hard = { { 1, 4, 4, 1 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 1, 3, 3, 1 }, { 0, 3, 3, 0 } }; //120
+    private int[][] hard = { { 1, 4, 4, 1 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 1, 3, 3, 1 }, { 0, 3, 3, 0 } }; // 120
     private int[][] hard2 = { { 1, 4, 4, 1 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 1, 3, 3, 1 }, { 0, 3, 3, 0 } };
     private int[][] hard3 = { { 1, 4, 4, 1 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 1, 3, 3, 1 }, { 0, 3, 3, 0 } };
 
@@ -70,7 +70,6 @@ public class KlotskiSolver {
 
         // queue.add(klotski);
         // this.breath_first();
-
 
         // priorityQueue.add(klotski2);
         // this.greedy();
@@ -138,28 +137,27 @@ public class KlotskiSolver {
             visited.add(klotski);
 
             if (klotski.isSolution()) {
-                System.out.println("\nSteps="+steps  + "\nSolution:\n");
-                System.out.println("\nMoves=" + klotski.g+ "\n");
+                System.out.println("\nSteps=" + steps + "\nSolution:\n");
+                System.out.println("\nMoves=" + klotski.g + "\n");
                 printSolution(klotski);
                 Utilities.printMap(klotski.constructMap());
                 priorityQueueStar.clear();
                 return;
-            }            
+            }
 
             for (Klotski nextPuzzle : klotski.getNextBoards()) {
                 nextPuzzle.g = klotski.g;
-                nextPuzzle.g+= 1;
+                nextPuzzle.g += 1;
 
                 if (!visited.contains(nextPuzzle)) {
                     Integer f = mapF.get(nextPuzzle);
 
-                    if(f == null){
+                    if (f == null) {
                         nextPuzzle.parent = klotski;
                         priorityQueueStar.add(nextPuzzle);
                         mapF.put(nextPuzzle, nextPuzzle.g);
-                    }
-                    else{
-                        if(nextPuzzle.g < f){
+                    } else {
+                        if (nextPuzzle.g < f) {
                             nextPuzzle.parent = klotski;
                             mapF.put(nextPuzzle, nextPuzzle.g);
                             priorityQueueStar.remove(nextPuzzle);
@@ -178,8 +176,8 @@ public class KlotskiSolver {
     private void printSolution(Klotski klotski) {
         int i = -1;
         LinkedList<Klotski> list = new LinkedList<>();
-        
-        while(klotski.parent != null){
+
+        while (klotski.parent != null) {
             list.addFirst(klotski);
             klotski = klotski.parent;
         }
@@ -208,7 +206,7 @@ public class KlotskiSolver {
             for (Klotski nextPuzzle : klotski.getNextBoards()) {
                 nextPuzzle.g = klotski.g;
                 nextPuzzle.g++;
-                
+
                 if (!visited.contains(nextPuzzle)) {
                     queue.add(nextPuzzle);
                     visited.add(nextPuzzle);

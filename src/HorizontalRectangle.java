@@ -1,4 +1,4 @@
-public class HorizontalRectangle extends Block{
+public class HorizontalRectangle extends Block {
 
     public HorizontalRectangle(int x, int y, int type, Klotski klotski) {
         super(x, y, type, klotski);
@@ -75,38 +75,38 @@ public class HorizontalRectangle extends Block{
             break;
         }
 
-        // case LEFT2: {
+        case LEFT2: {
 
-        // Block current = game.blocks.get(current_point);
+            Block current = game.blocks.get(current_point);
 
-        // if (current.y < 2 || current.y > 3 || current.x < 0 || current.x > 4)
-        // break;
+            if (current.y < 2 || current.y > 3 || current.x < 0 || current.x > 4)
+                break;
 
-        // Point left_point = new Point(current.x, current.y - 1);
+            Point left_point = new Point(current.x, current.y - 1);
 
-        // Block left = game.blocks.get(left_point);
+            Block left = game.blocks.get(left_point);
 
-        // Point left_point_2 = new Point(current.x, current.y - 2);
+            Point left_point_2 = new Point(current.x, current.y - 2);
 
-        // Block left_2 = game.blocks.get(left_point_2);
+            Block left_2 = game.blocks.get(left_point_2);
 
-        // if (left == null || left_2 == null)
-        // break;
+            if (left == null || left_2 == null)
+                break;
 
-        // // free space left
-        // if (left.type == 0 && left_2.type == 0) {
+            // free space left
+            if (left.type == 0 && left_2.type == 0) {
 
-        // current.y = current.y - 2;
+                current.y = current.y - 2;
 
-        // game.blocks.replace(left_point, current);
-        // game.blocks.replace(left_point_2, current);
-        // game.blocks.replace(current_point, left);
-        // game.blocks.replace(new Point(current.x, current.y + 3), left_2);
+                game.blocks.replace(left_point, current);
+                game.blocks.replace(left_point_2, current);
+                game.blocks.replace(current_point, left);
+                game.blocks.replace(new Point(current.x, current.y + 3), left_2);
 
-        // return new Klotski(game.constructMap());
-        // }
-        // break;
-        // }
+                return new Klotski(game.constructMap());
+            }
+            break;
+        }
 
         case LEFT: {
 
@@ -136,38 +136,38 @@ public class HorizontalRectangle extends Block{
             break;
         }
 
-        // case RIGHT2: {
+        case RIGHT2: {
 
-        // Block current = game.blocks.get(current_point);
+            Block current = game.blocks.get(current_point);
 
-        // if (current_point.y > 0 || current.y < 0 || current.x < 0 || current.x > 4)
-        // break;
+            if (current_point.y > 0 || current.y < 0 || current.x < 0 || current.x > 4)
+                break;
 
-        // Point right_point = new Point(current.x, current.y + 2);
+            Point right_point = new Point(current.x, current.y + 2);
 
-        // Block right = game.blocks.get(right_point);
+            Block right = game.blocks.get(right_point);
 
-        // Point right_point_2 = new Point(current.x, current.y + 3);
+            Point right_point_2 = new Point(current.x, current.y + 3);
 
-        // Block right_2 = game.blocks.get(right_point_2);
+            Block right_2 = game.blocks.get(right_point_2);
 
-        // if (right == null || right_2 == null)
-        // break;
+            if (right == null || right_2 == null)
+                break;
 
-        // // free space left
-        // if (right.type == 0 && right_2.type == 0) {
+            // free space left
+            if (right.type == 0 && right_2.type == 0) {
 
-        // current.y = current.y + 2;
+                current.y = current.y + 2;
 
-        // game.blocks.replace(current_point, right);
-        // game.blocks.replace(new Point(current.x, current.y - 1), right_2);
-        // game.blocks.replace(right_point, current);
-        // game.blocks.replace(right_point_2, current);
+                game.blocks.replace(current_point, right);
+                game.blocks.replace(new Point(current.x, current.y - 1), right_2);
+                game.blocks.replace(right_point, current);
+                game.blocks.replace(right_point_2, current);
 
-        // return new Klotski(game.constructMap());
-        // }
-        // break;
-        // }
+                return new Klotski(game.constructMap());
+            }
+            break;
+        }
 
         case RIGHT: {
 
