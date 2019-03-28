@@ -14,6 +14,10 @@ public class Block {
 		this.game = klotski;
 	}
 
+	public Klotski getNextBoard(Utilities.Direction e){
+		return null;
+	}
+
 	public ArrayList<Klotski> getNextBoards() {
 
 		ArrayList<Klotski> moves = new ArrayList<>();
@@ -25,38 +29,30 @@ public class Block {
 			int[][] keep_map = this.game.constructMap();
 
 			int keep_x = this.x;
-
 			int keep_y = this.y;
 
-			Point currentPoint = new Point(this.x, this.y);
-
-			switch (this.type) {
-			case 1:
-				nextBoard = SimpleSquare.getNextBoard(e, currentPoint, this.game);
-				break;
-			case 2:
-				nextBoard = VerticalRectangle.getNextBoard(e, currentPoint, this.game);
-				break;
-			case 3:
-				nextBoard = HorizontalRectangle.getNextBoard(e, currentPoint, this.game);
-				break;
-			case 4:
-				nextBoard = Square.getNextBoard(e, currentPoint, this.game);
-				break;
-			}
-
+			nextBoard = this.getNextBoard(e);
 			if (nextBoard != null) {
-				nextBoard.g=this.game.g +1;
 				moves.add(nextBoard);
 			}
-
-
+				
 			this.x = keep_x;
 			this.y = keep_y;
 			this.game.map = keep_map;
 			this.game.createBlocks();
 		}
 		return moves;
+	}
+
+	public static Block createBlock(int x, int y, int type, Klotski klotski) {
+		switch(type){
+			case 0: return new Block(x, y, type, klotski);
+			case 1: return new SimpleSquare(x, y, type, klotski);
+			case 2: return new VerticalRectangle(x, y, type, klotski);
+			case 3: return new HorizontalRectangle(x, y, type, klotski);
+			case 4: return new Square(x, y, type, klotski);
+		}
+		return null;		
 	}
 
 	@Override

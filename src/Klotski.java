@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Klotski implements Comparable<Klotski> {
 
@@ -9,12 +11,17 @@ public class Klotski implements Comparable<Klotski> {
     public int g=0;
 
     public Block BigSquare;
+    public ArrayList<Block> empty;
 
     public int[][] map;
 
+    public Klotski parent;
+
     public Klotski(int[][] map) {
+        parent = null;
         this.map = map.clone();
         this.blocks = new HashMap<>();
+        this.empty = new ArrayList<>();
         this.createBlocks();
     }
 
@@ -25,13 +32,25 @@ public class Klotski implements Comparable<Klotski> {
 
     public ArrayList<Klotski> getNextBoards() {
 
+        Set<Block> eligibleBlocks = new HashSet<>();
+
+        Block block;
+
+        for (Block elem : empty) {
+            for(Utilities.Direction direction : Utilities.DIRECTIONS){
+                block = this.blocks.get(new Point(elem.x + direction.x, elem.y + direction.y));
+                if(block != null && block.type != 0){
+                    eligibleBlocks.add(block);
+                }
+            }           
+        }
+
         ArrayList<Klotski> games = new ArrayList<>();
 
-        for (Block e : this.blocks.values()) {
+        for (Block e : eligibleBlocks) {
             if (e.type != 0)
                 games.addAll(e.getNextBoards());
         }
-
         return games;
 
     }
@@ -46,10 +65,14 @@ public class Klotski implements Comparable<Klotski> {
 
                 if (block_value != -1) {
 
-                    Block block = new Block(i, j, block_value, this);
+                    Block block = Block.createBlock(i, j, block_value, this);
 
-                    if (block_value == 4)
+                    if (block_value == 4){
                         this.BigSquare = block;
+                    }
+                    else if(block_value == 0){
+                        this.empty.add(block);
+                    }
 
                     this.blocks.put(new Point(i, j), block);
 
