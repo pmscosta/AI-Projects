@@ -58,36 +58,17 @@ public class KlotskiSolver {
     private int[][] hard2 = { { 1, 4, 4, 1 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 1, 3, 3, 1 }, { 0, 3, 3, 0 } };
     private int[][] hard3 = { { 1, 4, 4, 1 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 1, 3, 3, 1 }, { 0, 3, 3, 0 } };
 
+    private int[][] level3 = { { 1, 4, 4, 1 }, { 2, 4, 4, 1 }, { 2, 1, 1, 1 }, { 2, 1, 1, 2 }, { 2, 0, 0, 2 } };
+
     public void start() {
-        Klotski klotski = new Klotski(original_map.clone());
-        Klotski klotski2 = new Klotski(hard2.clone());
-        Klotski klotski3 = new Klotski(hard3.clone());
+        Klotski klotski = new Klotski(original_map);
 
         this.visited = new HashSet<>();
 
         priorityQueueStar.add(klotski);
-        this.astar();
-
-        // queue.add(klotski);
+        queue.add(klotski);
         // this.breath_first();
-
-        // priorityQueue.add(klotski2);
-        // this.greedy();
-
-        // this.visited = new HashSet<>();
-
-        // stack.add(klotski3);
-        // queue.add(klotski);
-        // this.depth_first();
-
-        this.visited = new HashSet<>();
-        this.breath_first();
-
-        // System.out.println("Original:\n");
-
-        // Utilities.printMap(klotski.constructMap());
-
-        // System.out.println("\n");
+        this.astar();
 
     }
 
@@ -137,10 +118,9 @@ public class KlotskiSolver {
             visited.add(klotski);
 
             if (klotski.isSolution()) {
-                System.out.println("\nSteps=" + steps + "\nSolution:\n");
-                System.out.println("\nMoves=" + klotski.g + "\n");
                 printSolution(klotski);
-                Utilities.printMap(klotski.constructMap());
+                System.out.println("\nSteps=" + steps);
+                System.out.println("\nMoves=" + klotski.g + "\n");
                 priorityQueueStar.clear();
                 return;
             }
