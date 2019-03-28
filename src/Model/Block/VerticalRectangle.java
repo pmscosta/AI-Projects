@@ -1,3 +1,9 @@
+package Model.Block;
+
+import Model.Klotski;
+import Model.Point;
+import Model.Utilities;
+
 public class VerticalRectangle extends Block {
 
     public VerticalRectangle(int x, int y, int type, Klotski klotski) {

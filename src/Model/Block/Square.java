@@ -1,4 +1,10 @@
-public class Square extends Block{
+package Model.Block;
+
+import Model.Klotski;
+import Model.Point;
+import Model.Utilities;
+
+public class Square extends Block {
 
     public Square(int x, int y, int type, Klotski klotski) {
         super(x, y, type, klotski);

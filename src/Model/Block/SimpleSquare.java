@@ -1,3 +1,8 @@
+package Model.Block;
+
+import Model.Klotski;
+import Model.Point;
+import Model.Utilities;
 
 public class SimpleSquare extends Block {
 
@@ -46,6 +51,11 @@ public class SimpleSquare extends Block {
 
                 }
 
+            }
+            else if(Math.abs(e.x) + Math.abs(e.y) > 1){
+                if(game.blocks.get(new Point(x, y + e.y)).type != 0 && game.blocks.get(new Point(x + e.x, y)).type != 0){
+                    return null;
+                }
             }
 
             game.blocks.replace(next_point, current);

@@ -1,8 +1,13 @@
+package Model;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
+
+import Model.Block.*;
 
 public class Klotski implements Comparable<Klotski> {
 
@@ -17,12 +22,32 @@ public class Klotski implements Comparable<Klotski> {
 
     public Klotski parent;
 
+    public Boolean visited;
+
     public Klotski(int[][] map) {
         parent = null;
         this.map = map.clone();
         this.blocks = new HashMap<>();
         this.empty = new ArrayList<>();
         this.createBlocks();
+        this.visited = false;
+    }
+
+    public void printSolution() {
+        Klotski klotski = this;
+        int i = -1;
+        LinkedList<Klotski> list = new LinkedList<>();
+
+        while (klotski.parent != null) {
+            list.addFirst(klotski);
+            klotski = klotski.parent;
+        }
+        list.addFirst(klotski);
+
+        for (Klotski elem : list) {
+            System.out.println(++i);
+            Utilities.printMap(elem.constructMap());
+        }
     }
 
     public boolean isSolution() {
@@ -196,7 +221,7 @@ public class Klotski implements Comparable<Klotski> {
     public int calculateH(){
         int numberOfEmptySpotsUnderBigSquare = calculateEmptySpotsUnderBigSquare();
 
-        return numberOfEmptySpotsUnderBigSquare;
+        return 0;
     }
 
     public int calculateHMinimizing(){

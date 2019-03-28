@@ -1,4 +1,9 @@
+package Model.Block;
+
 import java.util.ArrayList;
+
+import Model.Klotski;
+import Model.Utilities;
 
 public class Block {
 
