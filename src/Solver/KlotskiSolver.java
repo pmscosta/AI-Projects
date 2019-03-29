@@ -10,7 +10,7 @@ public class KlotskiSolver {
 
     public Klotski start(int option) {
 
-        Klotski klotski = new Klotski(MapExamples.original_map);
+        Klotski klotski = new Klotski(MapExamples.hard);
 
         Klotski endNode = null;
 
@@ -53,19 +53,26 @@ public class KlotskiSolver {
 
         int option = 0;
 
+        System.out.print("Select one of the above options: ");
+
         while (option < 1 || option > 4) {
-
-            System.out.print("Select one of the above options: ");
-
             try {
                 option = in.nextInt();
             } catch (InputMismatchException e) {
-                System.out.println("\rPlease select one of the above options");
+                System.out.println("Please select one of the above options");
+                option = 0;
             }
 
+            in.nextLine();
         }
 
+        long startTime = System.currentTimeMillis();
+
         Klotski endNode = solver.start(option);
+
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.println("Execution took: " + elapsedTime + " miliseconds.");
 
         System.out.println("** Do you want to see all the steps:");
         System.out.println("** 1 - Yes ");
