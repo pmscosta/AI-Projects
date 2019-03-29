@@ -4,4 +4,4 @@ rm -rf *.class
 
 javac Solver/*.java Model/*.java Model/Block/*.java
 
-java Solver.KlotskiSolver
+java Solver.KlotskiSolver "$1" "$2"
