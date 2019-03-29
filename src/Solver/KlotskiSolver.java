@@ -1,43 +1,94 @@
 package Solver;
 
-import java.util.*;
+import java.io.IOException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 import Model.Klotski;
-import Model.Utilities;
 
 public class KlotskiSolver {
 
-    private int[][] starting_map = { { 1, 4, 4, 1 }, { 1, 4, 4, 1 }, { 2, 1, 1, 2 }, { 2, 1, 1, 2 }, { 1, 0, 0, 1 } };
-    private int[][] original_map = { { 2, 4, 4, 2 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 2, 1, 1, 2 }, { 1, 0, 0, 1 } };
-    private int[][] starting_easy = { { 1, 4, 4, 1 }, { 1, 4, 4, 1 }, { 2, 1, 1, 2 }, { 2, 1, 1, 2 }, { 1, 0, 0, 1 } };
-    private int[][] test_vertical = { { 0, 0, 0, 0 }, { 0, 2, 0, 0 }, { 0, 2, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
-    private int[][] test_square = { { 0, 4, 4, 0 }, { 0, 4, 4, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
-    private int[][] test_vr = { { 0, 0, 0, 0 }, { 0, 2, 0, 0 }, { 0, 2, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
-    private int[][] test_vh = { { 0, 3, 3, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
-    private int[][] hard = { { 1, 4, 4, 1 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 1, 3, 3, 1 }, { 0, 3, 3, 0 } }; // 120
-    private int[][] hard2 = { { 1, 4, 4, 1 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 1, 3, 3, 1 }, { 0, 3, 3, 0 } };
-    private int[][] hard3 = { { 1, 4, 4, 1 }, { 2, 4, 4, 2 }, { 2, 3, 3, 2 }, { 1, 3, 3, 1 }, { 0, 3, 3, 0 } };
-    private int[][] level3 = { { 1, 4, 4, 1 }, { 2, 4, 4, 1 }, { 2, 1, 1, 1 }, { 2, 1, 1, 2 }, { 2, 0, 0, 2 } };
+    public Klotski start(int option) {
 
-    public void start() {
-        Klotski klotski = new Klotski(original_map);
+        Klotski klotski = new Klotski(MapExamples.original_map);
 
-        AStar aStar = new AStar(klotski);
-        aStar.solve();
+        Klotski endNode = null;
 
-        // Greedy greedy = new Greedy(klotski);
-        // greedy.solve();
+        switch (option) {
+        case 1:
+            Breadth breadth = new Breadth(klotski);
+            endNode = breadth.solve();
+            break;
 
-        // Breadth breadth = new Breadth(klotski);
-        // breadth.solve();
+        case 2:
+            Depth depth = new Depth(klotski);
+            endNode = depth.solve();
+            break;
 
-        // Depth depth = new Depth(klotski);
-        // depth.solve();
+        case 3:
+            AStar aStar = new AStar(klotski);
+            endNode = aStar.solve();
+            break;
+
+        case 4:
+            Greedy greedy = new Greedy(klotski);
+            endNode = greedy.solve();
+            break;
+        }
+
+        return endNode;
     }
-    
+
     public static void main(String[] args) {
+
         KlotskiSolver solver = new KlotskiSolver();
-        solver.start();
+
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("*****  Klotski Solver    *****");
+        System.out.println("***** 1 - Breadth Search *****");
+        System.out.println("***** 2 - Depth Search   *****");
+        System.out.println("***** 3 - A Star Search  *****");
+        System.out.println("***** 4 - Greedy Search  *****");
+
+        int option = 0;
+
+        while (option < 1 || option > 4) {
+
+            System.out.print("Select one of the above options: ");
+
+            try {
+                option = in.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("\rPlease select one of the above options");
+            }
+
+        }
+
+        Klotski endNode = solver.start(option);
+
+        System.out.println("** Do you want to see all the steps:");
+        System.out.println("** 1 - Yes ");
+        System.out.println("** 2 - No  ");
+
+        int printMap = 0;
+
+        while (printMap < 1 || printMap > 2) {
+
+            System.out.print("Select one of the above options: ");
+
+            try {
+                printMap = in.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("\rPlease select one of the above options");
+            }
+
+        }
+
+        if (printMap == 1)
+            endNode.printSolution();
+
+        in.close();
     }
 
 }

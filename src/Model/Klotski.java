@@ -13,7 +13,7 @@ public class Klotski implements Comparable<Klotski> {
 
     public HashMap<Point, Block> blocks;
 
-    public int g=0;
+    public int g = 0;
 
     public Block BigSquare;
     public ArrayList<Block> empty;
@@ -34,6 +34,7 @@ public class Klotski implements Comparable<Klotski> {
     }
 
     public void printSolution() {
+
         Klotski klotski = this;
         int i = -1;
         LinkedList<Klotski> list = new LinkedList<>();
@@ -62,12 +63,12 @@ public class Klotski implements Comparable<Klotski> {
         Block block;
 
         for (Block elem : empty) {
-            for(Utilities.Direction direction : Utilities.DIRECTIONS){
+            for (Utilities.Direction direction : Utilities.DIRECTIONS) {
                 block = this.blocks.get(new Point(elem.x + direction.x, elem.y + direction.y));
-                if(block != null && block.type != 0){
+                if (block != null && block.type != 0) {
                     eligibleBlocks.add(block);
                 }
-            }           
+            }
         }
 
         ArrayList<Klotski> games = new ArrayList<>();
@@ -92,10 +93,9 @@ public class Klotski implements Comparable<Klotski> {
 
                     Block block = Block.createBlock(i, j, block_value, this);
 
-                    if (block_value == 4){
+                    if (block_value == 4) {
                         this.BigSquare = block;
-                    }
-                    else if(block_value == 0){
+                    } else if (block_value == 0) {
                         this.empty.add(block);
                     }
 
@@ -187,50 +187,47 @@ public class Klotski implements Comparable<Klotski> {
         return Math.abs(x1 - x0) + Math.abs(y1 - y0);
     }
 
-
-    public int calculateEmptySpotsUnderBigSquareMinimizing(){
+    public int calculateEmptySpotsUnderBigSquareMinimizing() {
         int x = this.BigSquare.x;
         int y = this.BigSquare.y;
-        int emptySpots= (this.map.length - x +1)*4;
+        int emptySpots = (this.map.length - x + 1) * 4;
 
-        for(int i = x+2; i<this.map.length;i++){
-            if(map[i][y] != 0)
-                emptySpots+=i;
-            if(map[i][y+1] != 0)
-                emptySpots+=i;
+        for (int i = x + 2; i < this.map.length; i++) {
+            if (map[i][y] != 0)
+                emptySpots += i;
+            if (map[i][y + 1] != 0)
+                emptySpots += i;
         }
         return emptySpots;
 
     }
 
-    public int calculateEmptySpotsUnderBigSquare(){
+    public int calculateEmptySpotsUnderBigSquare() {
         int x = this.BigSquare.x;
         int y = this.BigSquare.y;
-        int emptySpots=x*4 + 1;
+        int emptySpots = x * 4 + 1;
 
-        for(int i = x+2; i<this.map.length;i++){
-            if(map[i][y] == 0)
-                emptySpots+=this.map.length-i +1;
-            if(map[i][y+1] == 0)
-                emptySpots+=this.map.length-i +1;
+        for (int i = x + 2; i < this.map.length; i++) {
+            if (map[i][y] == 0)
+                emptySpots += this.map.length - i + 1;
+            if (map[i][y + 1] == 0)
+                emptySpots += this.map.length - i + 1;
         }
         return emptySpots;
 
     }
 
-    public int calculateH(){
+    public int calculateH() {
         int numberOfEmptySpotsUnderBigSquare = calculateEmptySpotsUnderBigSquare();
 
         return 0;
     }
 
-    public int calculateHMinimizing(){
+    public int calculateHMinimizing() {
         int numberOfEmptySpotsUnderBigSquare = calculateEmptySpotsUnderBigSquareMinimizing();
 
         return numberOfEmptySpotsUnderBigSquare;
     }
-
-
 
     @Override
     public int compareTo(Klotski that) {

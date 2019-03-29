@@ -14,22 +14,20 @@ public class Depth {
         stack.add(map);
     }
 
-
-    public void solve() {
+    public Klotski solve() {
 
         int steps = 0;
         while (!stack.isEmpty()) {
             steps++;
             Klotski klotski = stack.pop();
-    
+
             if (klotski.isSolution()) {
-                klotski.printSolution();
                 System.out.println("\nSteps=" + steps + "\n");
                 System.out.println("\nMoves=" + klotski.g + "\n");
                 stack.clear();
-                return;
+                return klotski;
             }
-    
+
             for (Klotski nextPuzzle : klotski.getNextBoards()) {
                 nextPuzzle.g = klotski.g;
                 nextPuzzle.g += 1;
@@ -39,13 +37,13 @@ public class Depth {
                     stack.push(nextPuzzle);
                     visited.add(nextPuzzle);
                 }
-    
+
             }
-    
+
         }
-    
+
         System.out.println("Found no solution with " + steps + " steps");
-    
+        return null;
+
     }
 }
-

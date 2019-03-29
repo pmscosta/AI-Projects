@@ -29,19 +29,17 @@ public class Greedy {
         priorityQueue.add(map);
     }
 
-
-    public void solve() {
+    public Klotski solve() {
         int steps = 0;
         while (!priorityQueue.isEmpty()) {
             steps++;
             Klotski klotski = priorityQueue.poll();
 
             if (klotski.isSolution()) {
-                klotski.printSolution();
                 System.out.println("\nSteps=" + steps);
                 System.out.println("\nMoves=" + klotski.g + "\n");
                 priorityQueue.clear();
-                return;
+                return klotski;
             }
 
             for (Klotski nextPuzzle : klotski.getNextBoards()) {
@@ -58,5 +56,6 @@ public class Greedy {
         }
 
         System.out.println("Found no solution with " + steps + " steps");
+        return null;
     }
 }

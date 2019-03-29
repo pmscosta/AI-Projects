@@ -31,8 +31,7 @@ public class AStar {
         priorityQueue.add(map);
     }
 
-
-    public void solve() {
+    public Klotski solve() {
         int steps = 0;
         while (!priorityQueue.isEmpty()) {
             steps++;
@@ -41,11 +40,10 @@ public class AStar {
             visited.add(klotski);
 
             if (klotski.isSolution()) {
-                klotski.printSolution();
                 System.out.println("\nSteps=" + steps);
                 System.out.println("\nMoves=" + klotski.g + "\n");
                 priorityQueue.clear();
-                return;
+                return klotski;
             }
 
             for (Klotski nextPuzzle : klotski.getNextBoards()) {
@@ -73,7 +71,7 @@ public class AStar {
         }
 
         System.out.println("Found no solution with " + steps + " steps");
-
+        return null;
     }
 
 }
