@@ -34,6 +34,10 @@ public class KlotskiSolver {
             Greedy greedy = new Greedy(klotski);
             endNode = greedy.solve();
             break;
+        case 5:
+            IterativeDepth iterativeDepth = new IterativeDepth(klotski);
+            endNode = iterativeDepth.solve();
+            break;
         }
 
         return endNode;
@@ -45,17 +49,18 @@ public class KlotskiSolver {
 
         Scanner in = new Scanner(System.in);
 
-        System.out.println("*****  Klotski Solver    *****");
-        System.out.println("***** 1 - Breadth Search *****");
-        System.out.println("***** 2 - Depth Search   *****");
-        System.out.println("***** 3 - A Star Search  *****");
-        System.out.println("***** 4 - Greedy Search  *****");
+        System.out.println("*****    Klotski Solver    *****");
+        System.out.println("*****  1 - Breadth Search  *****");
+        System.out.println("*****  2 - Depth Search    *****");
+        System.out.println("*****  3 - A Star Search   *****");
+        System.out.println("*****  4 - Greedy Search   *****");
+        System.out.println("*****  5 - Iterative Depth *****");
 
         int option = 0;
 
         System.out.print("Select one of the above options: ");
 
-        while (option < 1 || option > 4) {
+        while (option < 1 || option > 5) {
             try {
                 option = in.nextInt();
             } catch (InputMismatchException e) {
