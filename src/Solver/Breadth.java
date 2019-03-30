@@ -23,8 +23,7 @@ public class Breadth {
             Klotski klotski = queue.poll();
 
             if (klotski.isSolution()) {
-                System.out.println("\nSteps=" + steps);
-                System.out.println("\nMoves=" + klotski.g + "\n");
+                System.out.println("Steps=" + steps);
                 queue.clear();
                 return klotski;
             }

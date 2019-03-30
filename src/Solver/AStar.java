@@ -40,8 +40,7 @@ public class AStar {
             visited.add(klotski);
 
             if (klotski.isSolution()) {
-                System.out.println("\nSteps=" + steps);
-                System.out.println("\nMoves=" + klotski.g + "\n");
+                System.out.println("Steps=" + steps);
                 priorityQueue.clear();
                 return klotski;
             }

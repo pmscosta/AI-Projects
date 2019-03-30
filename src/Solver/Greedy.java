@@ -36,8 +36,7 @@ public class Greedy {
             Klotski klotski = priorityQueue.poll();
 
             if (klotski.isSolution()) {
-                System.out.println("\nSteps=" + steps);
-                System.out.println("\nMoves=" + klotski.g + "\n");
+                System.out.println("Steps=" + steps);
                 priorityQueue.clear();
                 return klotski;
             }

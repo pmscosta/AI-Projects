@@ -1,0 +1,22 @@
+
+
+Algorithm: Breadth	map: Easy	average: 1036
+Algorithm: Breadth	map: Medium	average: 1902
+Algorithm: Breadth	map: Hard	average: 3606
+
+Algorithm: Depth	map: Easy	average: 85
+Algorithm: Depth	map: Medium	average: 694
+Algorithm: Depth	map: Hard	average: 1850
+
+Algorithm: AStar	map: Easy	average: 1099
+Algorithm: AStar	map: Medium	average: 2354
+Algorithm: AStar	map: Hard	average: 3932
+
+Algorithm: Greedy	map: Easy	average: 274
+Algorithm: Greedy	map: Medium	average: 134
+Algorithm: Greedy	map: Hard	average: 381
+
+Algorithm: IterativeDepth	map: Easy	average: 341
+Algorithm: IterativeDepth	map: Medium	average: 10524
+Algorithm: IterativeDepth	map: Hard	average: 19535
+

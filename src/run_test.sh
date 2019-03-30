@@ -4,4 +4,11 @@ rm -rf *.class
 
 javac Solver/*.java Model/*.java Model/Block/*.java
 
-java Solver.KlotskiSolver "$1" "$2"
+
+if [ -z "$1"]
+    then
+    java Solver.KlotskiTester
+else
+    java Solver.KlotskiTester "$1" "$2"
+fi
+

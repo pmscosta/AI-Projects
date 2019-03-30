@@ -32,6 +32,12 @@ public class KlotskiSolver {
             in.nextLine();
         }
 
+        int map[][] = convertOptionToMap(option);
+
+        System.out.println("Initial Map:");
+        Utilities.printMap(map);
+        System.out.println();
+
         return convertOptionToMap(option);
 
     }
@@ -51,27 +57,10 @@ public class KlotskiSolver {
         return endNode;
     }
 
-    public static Klotski start(int option, int[][] map) {
-
-        long startTime = System.currentTimeMillis();
-
-        Klotski endNode = runAlgorithm(option, map);
-
-        long stopTime = System.currentTimeMillis();
-        long elapsedTime = stopTime - startTime;
-        System.out.println("Execution took: " + elapsedTime + " miliseconds.");
-
-        return endNode;
-    }
-
-    public static Klotski runAlgorithm(int option, int[][] map) {
+    public Klotski runAlgorithm(int option, int[][] map) {
 
         Klotski klotski = new Klotski(map);
         Klotski endNode = null;
-
-        System.out.println("Initial Map:");
-        Utilities.printMap(klotski.constructMap());
-        System.out.println();
 
         switch (option) {
         case 1:
@@ -103,17 +92,7 @@ public class KlotskiSolver {
 
     }
 
-    public static int[][] deepCopyIntMatrix(int[][] input) {
-        if (input == null)
-            return null;
-        int[][] result = new int[input.length][];
-        for (int r = 0; r < input.length; r++) {
-            result[r] = input[r].clone();
-        }
-        return result;
-    }
-
-    public static int[][] convertOptionToMap(int option) {
+    public int[][] convertOptionToMap(int option) {
         switch (option) {
         case 1:
             return MapExamples.starting_easy.clone();
@@ -133,20 +112,9 @@ public class KlotskiSolver {
         return MapExamples.original_map.clone();
     }
 
-    public static void runTests(int alg, int mapOpt) {
-        for (int i = 0; i < 5; i++) {
-            int[][] map = deepCopyIntMatrix(convertOptionToMap(mapOpt));
-            start(alg, map.clone());
-        }
-    }
-
     public static void main(String[] args) {
 
         KlotskiSolver solver = new KlotskiSolver();
-
-        if (args.length == 2) {
-            runTests(Integer.parseInt(args[0]), Integer.parseInt(args[0]));
-        }
 
         System.out.println("*****    Klotski Solver    *****");
         System.out.println("*****  1 - Breadth Search  *****");
@@ -171,6 +139,7 @@ public class KlotskiSolver {
         }
 
         Klotski endNode = solver.start(option);
+        System.out.println("Moves=" + endNode.g + "\n");
 
         System.out.println("** Do you want to see all the steps:");
         System.out.println("** 1 - Yes ");

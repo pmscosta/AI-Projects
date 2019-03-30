@@ -22,8 +22,7 @@ public class Depth {
             Klotski klotski = stack.pop();
 
             if (klotski.isSolution()) {
-                System.out.println("\nSteps=" + steps + "\n");
-                System.out.println("\nMoves=" + klotski.g + "\n");
+                System.out.println("Steps=" + steps);
                 stack.clear();
                 return klotski;
             }

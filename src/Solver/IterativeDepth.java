@@ -32,8 +32,6 @@ public class IterativeDepth {
     public Klotski solve() {
         int i = 0;
         for (; i < MAX_DEPTH; i += 100) {
-
-            System.out.println(i);
             stack.add(new IterativeKlotski(this.root, i));
             Klotski end = DepthIterative();
 
@@ -59,8 +57,7 @@ public class IterativeDepth {
             int curr_depth = joined.depth;
 
             if (klotski.isSolution()) {
-                System.out.println("\nSteps=" + steps + "\n");
-                System.out.println("\nMoves=" + klotski.g + "\n");
+                System.out.println("Steps=" + steps);
                 stack.clear();
                 return klotski;
             }
