@@ -34,4 +34,17 @@ public class Utilities {
         }
     }
 
+    public static  int[][] clone2D(int[][] matrix){
+        int [][] myInt = new int[matrix.length][];
+       
+        for(int i = 0; i < matrix.length; i++){
+            int[] aMatrix = matrix[i];
+            int   aLength = aMatrix.length;
+            myInt[i] = new int[aLength];
+            System.arraycopy(aMatrix, 0, myInt[i], 0, aLength);
+        }
+
+        return myInt;
+    }
+
 }
