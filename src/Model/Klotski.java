@@ -220,13 +220,19 @@ public class Klotski implements Comparable<Klotski> {
     public int calculateH() {
         int numberOfEmptySpotsUnderBigSquare = calculateEmptySpotsUnderBigSquare();
 
-        return 0;
+        return numberOfEmptySpotsUnderBigSquare;
     }
 
     public int calculateHMinimizing() {
         int numberOfEmptySpotsUnderBigSquare = calculateEmptySpotsUnderBigSquareMinimizing();
 
         return numberOfEmptySpotsUnderBigSquare;
+    }
+
+    public int calculateManhattanDistance() {
+
+        return manhattanDistance(this.BigSquare.x, this.BigSquare.y, 3, 1);
+
     }
 
     @Override
