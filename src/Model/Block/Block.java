@@ -1,8 +1,10 @@
 package Model.Block;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Model.Klotski;
+import Model.Point;
 import Model.Utilities;
 
 public class Block {
@@ -19,32 +21,36 @@ public class Block {
 		this.game = klotski;
 	}
 
+	public Block(Block block){
+		this.x = block.x;
+		this.y = block.y;
+		this.type = block.type;
+		this.game = block.game;
+	}
+
 	public Klotski getNextBoard(Utilities.Direction e){
 		return null;
 	}
 
 	public ArrayList<Klotski> getNextBoards() {
-
+		
+		int keep_x = this.x;
+		int keep_y = this.y;
+		HashMap<Point, Block> keep_blocks = new HashMap<>(this.game.blocks);
+	
 		ArrayList<Klotski> moves = new ArrayList<>();
 
 		for (Utilities.Direction e : Utilities.DIRECTIONS) {
 
-			Klotski nextBoard = null;
+			Klotski nextBoard = this.getNextBoard(e);
 
-			int[][] keep_map = this.game.constructMap();
-
-			int keep_x = this.x;
-			int keep_y = this.y;
-
-			nextBoard = this.getNextBoard(e);
 			if (nextBoard != null) {
 				moves.add(nextBoard);
 			}
 				
 			this.x = keep_x;
 			this.y = keep_y;
-			this.game.map = keep_map;
-			this.game.createBlocks();
+			this.game.blocks = new HashMap<>(keep_blocks);
 		}
 		return moves;
 	}

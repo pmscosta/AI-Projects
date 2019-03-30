@@ -12,6 +12,7 @@ public class SimpleSquare extends Block {
 
     @Override
     public Klotski getNextBoard(Utilities.Direction e) {
+        
         int next_x = x + e.x;
         int next_y = y + e.y;
 
@@ -60,6 +61,7 @@ public class SimpleSquare extends Block {
 
             game.blocks.replace(next_point, current);
             game.blocks.replace(current_point, next_block);
+
 
             return new Klotski(game.constructMap());
         }
