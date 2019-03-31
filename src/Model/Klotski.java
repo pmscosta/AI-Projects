@@ -56,8 +56,9 @@ public class Klotski implements Comparable<Klotski> {
     }
 
     public boolean isSolution() {
-        return this.blocks.get(new Point(3, 2)).x == 3 && this.blocks.get(new Point(3, 1)).y == 1
-                && this.blocks.get(new Point(3, 1)).type == 4;
+        return this.map[3][1] == -4;
+        // return this.blocks.get(new Point(3, 1)).x == 3 && this.blocks.get(new Point(3, 1)).y == 1
+        //         && this.blocks.get(new Point(3, 1)).type == 4;
     }
 
     public ArrayList<Klotski> getNextBoards() {
@@ -203,7 +204,7 @@ public class Klotski implements Comparable<Klotski> {
     public int heuristic1() {
         int x = this.BigSquare.x;
         int y = this.BigSquare.y;
-        int dx = this.map.length - x - 1;
+        int dx = this.map.length - x - 2;
         int dy = y - 1;
         int necessaryMoves = dx + Math.abs(dy);
 
