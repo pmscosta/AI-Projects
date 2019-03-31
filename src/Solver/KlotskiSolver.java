@@ -107,6 +107,8 @@ public class KlotskiSolver {
                 return result;
             else
                 break;
+        case 5:
+            return MapExamples.readMapFromFile("MapFiles/level23.txt");
 
         }
         return MapExamples.original_map.clone();

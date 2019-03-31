@@ -3,6 +3,7 @@ package Solver;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import Model.*;
 
 public class KlotskiTester {
 
@@ -119,11 +120,11 @@ public class KlotskiTester {
 
         long startTime = System.currentTimeMillis();
 
-        solver.runAlgorithm(option, map);
+        Klotski end = solver.runAlgorithm(option, map);
 
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;
-        System.out.println("Execution took: " + elapsedTime + " miliseconds.");
+        System.out.println("Execution took: " + elapsedTime + " miliseconds" + " Moves: " + end.g);
 
         return elapsedTime;
     }

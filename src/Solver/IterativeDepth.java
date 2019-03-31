@@ -31,7 +31,7 @@ public class IterativeDepth {
 
     public Klotski solve() {
         int i = 0;
-        for (; i < MAX_DEPTH; i += 100) {
+        for (; i < MAX_DEPTH; i++) {
             stack.add(new IterativeKlotski(this.root, i));
             Klotski end = DepthIterative();
 
@@ -56,25 +56,27 @@ public class IterativeDepth {
             Klotski klotski = joined.klotski;
             int curr_depth = joined.depth;
 
-            if (klotski.isSolution()) {
-                System.out.println("Steps=" + steps);
-                stack.clear();
-                return klotski;
-            }
-
-            if (curr_depth <= 0)
-                break;
-
-            for (Klotski nextPuzzle : klotski.getNextBoards()) {
-                nextPuzzle.g = klotski.g;
-                nextPuzzle.g += 1;
-
-                if (!visited.contains(nextPuzzle)) {
-                    nextPuzzle.parent = klotski;
-                    stack.push(new IterativeKlotski(nextPuzzle, curr_depth - 1));
-                    visited.add(nextPuzzle);
+            if (curr_depth == 0) {
+                if (klotski.isSolution()) {
+                    System.out.println("Steps=" + steps);
+                    stack.clear();
+                    return klotski;
                 }
+            } else if (curr_depth > 0) {
 
+                for (Klotski nextPuzzle : klotski.getNextBoards()) {
+                    nextPuzzle.g = klotski.g;
+                    nextPuzzle.g += 1;
+
+                    if (!visited.contains(nextPuzzle)) {
+                        nextPuzzle.parent = klotski;
+                        stack.push(new IterativeKlotski(nextPuzzle, curr_depth - 1));
+                        visited.add(nextPuzzle);
+                    }
+
+                }
+            } else {
+                break;
             }
 
         }
