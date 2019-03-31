@@ -30,7 +30,7 @@ public class Greedy {
     }
 
     public int calculateH(Klotski map) {
-        return map.heuristic2();
+        return map.heuristic1();
     }
 
     public Klotski solve() {

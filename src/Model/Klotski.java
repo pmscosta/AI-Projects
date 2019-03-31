@@ -193,9 +193,9 @@ public class Klotski implements Comparable<Klotski> {
         case -1:
             return 1;
         case -2:
-            return 7;
-        case -3:
             return 8;
+        case -3:
+            return 9;
         }
         return 0;
     }
@@ -203,9 +203,14 @@ public class Klotski implements Comparable<Klotski> {
     public int heuristic1() {
         int x = this.BigSquare.x;
         int y = this.BigSquare.y;
-        int dx = this.map.length - x - 2;
+        int dx = this.map.length - x - 1;
         int dy = y - 1;
         int necessaryMoves = dx + Math.abs(dy);
+
+        int spacedx = Math.abs(this.empty.get(0).x - this.empty.get(1).x);
+        int spacedy = Math.abs(this.empty.get(0).y - this.empty.get(1).y);
+
+        necessaryMoves += spacedx + spacedy - 1;
 
         if (dx != 0) {
             for (int i = x + 2; i < this.map.length; i++) {
