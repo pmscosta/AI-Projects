@@ -13,8 +13,8 @@ public class Greedy {
     private PriorityQueue<Klotski> priorityQueue = new PriorityQueue<Klotski>(11, new Comparator<Klotski>() {
         @Override
         public int compare(Klotski klotski, Klotski that) {
-            int finalThis = klotski.calculateH();
-            int finalThat = that.calculateH();
+            int finalThis = calculateH(klotski);
+            int finalThat = calculateH(that);
 
             if (finalThis < finalThat)
                 return -1;
@@ -27,6 +27,10 @@ public class Greedy {
 
     public Greedy(Klotski map) {
         priorityQueue.add(map);
+    }
+
+    public int calculateH(Klotski map) {
+        return map.heuristic2();
     }
 
     public Klotski solve() {

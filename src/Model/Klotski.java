@@ -271,10 +271,6 @@ public class Klotski implements Comparable<Klotski> {
 
     }
 
-    public int calculateH() {
-        return heuristic1();
-    }
-
     public int calculateManhattanDistance() {
 
         return manhattanDistance(this.BigSquare.x, this.BigSquare.y, 3, 1);

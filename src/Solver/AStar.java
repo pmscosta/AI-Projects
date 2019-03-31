@@ -12,11 +12,12 @@ public class AStar {
     private Set<Klotski> visited = new HashSet<>();
     private HashMap<Klotski, Integer> mapF = new HashMap<>();
 
+
     private PriorityQueue<Klotski> priorityQueue = new PriorityQueue<Klotski>(11, new Comparator<Klotski>() {
         @Override
         public int compare(Klotski klotski, Klotski that) {
-            int finalThis = klotski.calculateH() + klotski.g;
-            int finalThat = that.calculateH() + that.g;
+            int finalThis = calculateH(klotski) + klotski.g;
+            int finalThat = calculateH(that) + that.g;
 
             if (finalThis < finalThat)
                 return -1;
@@ -30,6 +31,11 @@ public class AStar {
     public AStar(Klotski map) {
         priorityQueue.add(map);
     }
+
+    public int calculateH(Klotski map) {
+        return map.heuristic2();
+    }
+
 
     public Klotski solve() {
         int steps = 0;
