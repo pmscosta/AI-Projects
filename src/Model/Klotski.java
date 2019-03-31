@@ -78,8 +78,7 @@ public class Klotski implements Comparable<Klotski> {
         ArrayList<Klotski> games = new ArrayList<>();
 
         for (Block e : eligibleBlocks) {
-            if (e.type != 0)
-                games.addAll(e.getNextBoards());
+            games.addAll(e.getNextBoards());
         }
         return games;
     }
@@ -91,7 +90,7 @@ public class Klotski implements Comparable<Klotski> {
 
                 int block_value = this.map[i][j];
 
-                if (block_value != -1) {
+                if (block_value >= 0) {
 
                     Block block = Block.createBlock(i, j, block_value, this);
 
@@ -118,20 +117,20 @@ public class Klotski implements Comparable<Klotski> {
             this.map[i][j] = -1;
             return;
         case 2:
-            this.map[i][j] = -1;
-            this.map[i + 1][j] = -1;
+            this.map[i][j] = -2;
+            this.map[i + 1][j] = -10;
             this.blocks.put(new Point(i + 1, j), block);
             return;
         case 3:
-            this.map[i][j] = -1;
-            this.map[i][j + 1] = -1;
+            this.map[i][j] = -3;
+            this.map[i][j + 1] = -10;
             this.blocks.put(new Point(i, j + 1), block);
             return;
         case 4:
-            this.map[i][j] = -1;
-            this.map[i][j + 1] = -1;
-            this.map[i + 1][j] = -1;
-            this.map[i + 1][j + 1] = -1;
+            this.map[i][j] = -4;
+            this.map[i][j + 1] = -10;
+            this.map[i + 1][j] = -10;
+            this.map[i + 1][j + 1] = -10;
             this.blocks.put(new Point(i, j + 1), block);
             this.blocks.put(new Point(i + 1, j), block);
             this.blocks.put(new Point(i + 1, j + 1), block);
@@ -189,13 +188,45 @@ public class Klotski implements Comparable<Klotski> {
         return Math.abs(x1 - x0) + Math.abs(y1 - y0);
     }
 
-    public int calculateEmptySpotsUnderBigSquareMinimizing() {
+
+    public int averageNecessaryMoves(int type){
+        switch(type){
+            case -1: return 1;
+            case -2: return 7;
+            case -3: return 8;
+        }
+        return 0;
+    }
+
+    public int heuristic1(){
         int x = this.BigSquare.x;
         int y = this.BigSquare.y;
         int dx = this.map.length - x - 2;
         int dy = y - 1;
         int necessaryMoves = dx + Math.abs(dy);
 
+        if(dx != 0){
+            for (int i = x + 2; i < this.map.length; i++) {
+                necessaryMoves += averageNecessaryMoves(map[i][y]) +  averageNecessaryMoves(map[i][y+1]);
+
+            }
+        }
+        if(dy > 0){
+            necessaryMoves += averageNecessaryMoves(map[x][y-1]) +  averageNecessaryMoves(map[x+1][y-1]);
+        }else if(dy < 0){
+            necessaryMoves += averageNecessaryMoves(map[x][y+2]) +  averageNecessaryMoves(map[x+1][y+2]);
+    }
+        return necessaryMoves;
+    }
+
+    public int heuristic2() {
+        int x = this.BigSquare.x;
+        int y = this.BigSquare.y;
+        int dx = this.map.length - x - 2;
+        int dy = y - 1;
+        int necessaryMoves = dx + Math.abs(dy);
+
+<<<<<<< HEAD
         // for(int i = 0; i < this.map.length; i++){
         // for(int j = 0; j < this.map[i].length; j++){
         // System.out.print(this.map[i][j] + " ");
@@ -204,6 +235,9 @@ public class Klotski implements Comparable<Klotski> {
         // }
         // System.out.println();
         if (dx != 0) {
+=======
+        if(dx != 0){
+>>>>>>> 2eb4c03ff382c6903055ebbfc24f75deb868373b
             for (int i = x + 2; i < this.map.length; i++) {
                 if (map[i][y] != 0) {
                     necessaryMoves++;
@@ -249,15 +283,7 @@ public class Klotski implements Comparable<Klotski> {
     }
 
     public int calculateH() {
-        int numberOfEmptySpotsUnderBigSquare = calculateEmptySpotsUnderBigSquareMinimizing();
-
-        return numberOfEmptySpotsUnderBigSquare;
-    }
-
-    public int calculateHMinimizing() {
-        int numberOfEmptySpotsUnderBigSquare = calculateEmptySpotsUnderBigSquareMinimizing();
-
-        return numberOfEmptySpotsUnderBigSquare;
+        return heuristic1();
     }
 
     public int calculateManhattanDistance() {

@@ -15,8 +15,8 @@ public class AStar {
     private PriorityQueue<Klotski> priorityQueue = new PriorityQueue<Klotski>(11, new Comparator<Klotski>() {
         @Override
         public int compare(Klotski klotski, Klotski that) {
-            int finalThis = klotski.calculateHMinimizing() + klotski.g;
-            int finalThat = that.calculateHMinimizing() + that.g;
+            int finalThis = klotski.calculateH() + klotski.g;
+            int finalThat = that.calculateH() + that.g;
 
             if (finalThis < finalThat)
                 return -1;
