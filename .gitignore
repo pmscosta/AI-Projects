@@ -1,3 +1,4 @@
 *.class
 src/*.class
 .idea/*
+src/results.txt
