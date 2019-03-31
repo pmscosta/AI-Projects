@@ -197,13 +197,13 @@ public class Klotski implements Comparable<Klotski> {
         int necessaryMoves = dx + Math.abs(dy);
 
         // for(int i = 0; i < this.map.length; i++){
-        //     for(int j = 0; j < this.map[i].length; j++){
-        //         System.out.print(this.map[i][j] + " ");
-        //     }
-        //     System.out.println();
+        // for(int j = 0; j < this.map[i].length; j++){
+        // System.out.print(this.map[i][j] + " ");
         // }
         // System.out.println();
-        if(dx != 0){
+        // }
+        // System.out.println();
+        if (dx != 0) {
             for (int i = x + 2; i < this.map.length; i++) {
                 if (map[i][y] != 0) {
                     necessaryMoves++;
@@ -214,21 +214,21 @@ public class Klotski implements Comparable<Klotski> {
             }
         }
 
-        if(dy > 0){
+        if (dy > 0) {
             if (map[x][y - 1] != 0) {
                 necessaryMoves++;
             }
-            if (map[x+1][y - 1] != 0) {
+            if (map[x + 1][y - 1] != 0) {
                 necessaryMoves++;
             }
-        }else if(dy < 0){
+        } else if (dy < 0) {
             if (map[x][y + 2] != 0) {
                 necessaryMoves++;
             }
-            if (map[x+1][y + 2] != 0) {
+            if (map[x + 1][y + 2] != 0) {
                 necessaryMoves++;
             }
-    }
+        }
         return necessaryMoves;
 
     }
