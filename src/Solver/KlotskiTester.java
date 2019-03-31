@@ -8,6 +8,12 @@ public class KlotskiTester {
 
     private KlotskiSolver solver;
 
+    private static final short NUM_OF_ALGS = 5;
+
+    private static final short NUM_OF_MAPS = 3;
+
+    private static final short NUM_OF_TIMES = 1;
+
     private PrintWriter file;
 
     public static int[][] deepCopyIntMatrix(int[][] input) {
@@ -37,12 +43,12 @@ public class KlotskiTester {
         KlotskiTester tester = new KlotskiTester();
 
         if (args.length == 2) {
-            tester.runTests(Integer.parseInt(args[0]), Integer.parseInt(args[0]));
+            tester.runTests(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
 
         } else {
 
-            for (int i = 1; i < 6; i++) {
-                for (int j = 1; j < 4; j++) {
+            for (int i = 1; i <= NUM_OF_ALGS; i++) {
+                for (int j = 1; j <= NUM_OF_MAPS; j++) {
                     tester.runTests(i, j);
                 }
                 tester.file.write("\n");
@@ -57,7 +63,6 @@ public class KlotskiTester {
 
         long total = 0;
         long avg = 0;
-        int NUM_OF_TIMES = 5;
         for (int i = 0; i < NUM_OF_TIMES; i++) {
             int[][] map = deepCopyIntMatrix(solver.convertOptionToMap(mapOpt));
             total += start(alg, map.clone());

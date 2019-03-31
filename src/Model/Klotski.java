@@ -275,6 +275,12 @@ public class Klotski implements Comparable<Klotski> {
         return heuristic1();
     }
 
+    public int calculateManhattanDistance() {
+
+        return manhattanDistance(this.BigSquare.x, this.BigSquare.y, 3, 1);
+
+    }
+
     @Override
     public int compareTo(Klotski that) {
 
