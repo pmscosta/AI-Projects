@@ -30,7 +30,7 @@ public class Greedy {
     }
 
     public int calculateH(Klotski map) {
-        return map.calculateEmptySpotsUnderBigSquare() + map.g;
+        return map.greedyV2() + map.g;
     }
 
     public Klotski solve() {

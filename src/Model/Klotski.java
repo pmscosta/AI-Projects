@@ -231,9 +231,11 @@ public class Klotski implements Comparable<Klotski> {
     public int heuristic3(){
         int x = this.BigSquare.x;
         int y = this.BigSquare.y;
-        int emptySpots = (this.map.length - x +2); //max 4*4
+        int[][] map = this.constructMap();
 
-        for (int i = x + 2; i < this.map.length; i++) {
+        int emptySpots = (map.length - x +2); //max 4*4
+
+        for (int i = x + 2; i < map.length; i++) {
             if (map[i][y] != 0)
                 emptySpots += i -2;
             if (map[i][y + 1] != 0)
@@ -297,7 +299,59 @@ public class Klotski implements Comparable<Klotski> {
 
     }
 
-    public int calculateEmptySpotsUnderBigSquare() {
+    public int greedyV2(){
+        int x = this.BigSquare.x;
+        int y = this.BigSquare.y;
+        int[][] map = this.constructMap();
+
+        int emptySpots = 4*(map.length - x +1); //max 4*4
+
+        for (int i = x + 2; i < map.length; i++) {
+            if (map[i][y] != 0)
+                emptySpots += i ;
+
+            if (map[i][y + 1] != 0)
+                emptySpots += i;
+
+            if (map[i][y] == 2 ||map[i][y] == 3)
+                emptySpots += i ;
+            if (map[i][y+1] == 2 ||map[i][y+1] == 3)
+                emptySpots += i;
+
+
+            int first,second;
+            switch(y){
+                case 0:
+                    first=2;
+                    second=3;
+                    break;
+                case 1:
+                    first=0;
+                    second=3;
+                    break;
+                case 2:
+                    first = 0;
+                    second = 1;
+                    break;
+                default:
+                    first = 0;
+                    second= 0;
+                    break;
+            }
+
+
+            if (map[i][y + 1] != 0 &&map[i][y] != 0 && map[i][second] != 0)
+                emptySpots+=i*this.g;
+
+            if (map[i][y + 1] != 0 &&map[i][y] != 0 && map[i][first] != 0)
+                emptySpots+=i*this.g;
+
+
+        }
+        return emptySpots;
+    }
+
+    public int greedyV1() {
         int x = this.BigSquare.x;
         int y = this.BigSquare.y;
         int emptySpots = x * 4 + 1;
