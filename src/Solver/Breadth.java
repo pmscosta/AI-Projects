@@ -11,6 +11,7 @@ public class Breadth {
 
     private Queue<Klotski> queue = new LinkedList<>();
     private Set<Klotski> visited = new HashSet<>();
+    private Double memoryMax = -1.0;
 
     public Breadth(Klotski map) {
         queue.add(map);
@@ -18,12 +19,16 @@ public class Breadth {
 
     public Klotski solve() {
         int steps = 0;
+        long initial = Runtime.getRuntime().freeMemory();
+
         while (!queue.isEmpty()) {
             steps++;
+            memoryMax = Double.max(memoryMax,Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
             Klotski klotski = queue.poll();
 
             if (klotski.isSolution()) {
                 System.out.println("Steps=" + steps);
+                System.out.println("Memory usage= " +  ((int) (100*((memoryMax- initial)/Runtime.getRuntime().totalMemory()))) + "%");
                 queue.clear();
                 return klotski;
             }

@@ -11,7 +11,7 @@ import Model.Klotski;
 public class AStar {
     private Set<Klotski> visited = new HashSet<>();
     private HashMap<Klotski, Integer> mapF = new HashMap<>();
-
+    private Double memoryMax = -1.0;
 
     private PriorityQueue<Klotski> priorityQueue = new PriorityQueue<Klotski>(11, new Comparator<Klotski>() {
         @Override
@@ -39,7 +39,11 @@ public class AStar {
 
     public Klotski solve() {
         int steps = 0;
+        long initial = Runtime.getRuntime().freeMemory();
+
         while (!priorityQueue.isEmpty()) {
+            memoryMax = Double.max(memoryMax,Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+
             steps++;
             Klotski klotski = priorityQueue.poll();
 
@@ -48,6 +52,7 @@ public class AStar {
             if (klotski.isSolution()) {
                 System.out.println("Steps=" + steps);
                 priorityQueue.clear();
+                System.out.println("Memory usage= " +  ((int) (100*((memoryMax- initial)/Runtime.getRuntime().totalMemory()))) + "%");
                 return klotski;
             }
 
