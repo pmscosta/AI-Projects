@@ -38,7 +38,7 @@ public class KlotskiSolver {
         Utilities.printMap(map);
         System.out.println();
 
-        return convertOptionToMap(option);
+        return map;
 
     }
 
