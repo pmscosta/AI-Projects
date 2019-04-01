@@ -13,16 +13,18 @@ public class KlotskiSolver {
     public int[][] selectMap() {
 
         System.out.println("\n\n***** Please choose the map *****");
-        System.out.println("*****   1 - Easy            *****");
-        System.out.println("*****   2 - Medium          *****");
-        System.out.println("*****   3 - Hard            *****");
-        System.out.println("*****   4 - Read From File  *****");
+        System.out.println("*****   1 - Level 1             *****");
+        System.out.println("*****   2 - Level 17            *****");
+        System.out.println("*****   3 - Level 30            *****");
+        System.out.println("*****   3 - Level 48            *****");
+        System.out.println("*****   5 - Level 50            *****");
+        System.out.println("*****   6 - Read From File      *****");
 
         int option = 0;
 
         System.out.print("Select one of the above options: ");
 
-        while (option < 1 || option > 4) {
+        while (option < 1 || option > 6) {
             try {
                 option = in.nextInt();
             } catch (InputMismatchException e) {
@@ -38,7 +40,7 @@ public class KlotskiSolver {
         Utilities.printMap(map);
         System.out.println();
 
-        return convertOptionToMap(option);
+        return map;
 
     }
 
@@ -95,23 +97,24 @@ public class KlotskiSolver {
     public int[][] convertOptionToMap(int option) {
         switch (option) {
         case 1:
-            return MapExamples.starting_easy.clone();
+            return Utilities.clone2D(MapExamples.map_level1);
         case 2:
-            return MapExamples.original_map.clone();
+            return Utilities.clone2D(MapExamples.map_level17);
         case 3:
-            return MapExamples.hard.clone();
+            return Utilities.clone2D(MapExamples.map_level30);
         case 4:
+            return Utilities.clone2D(MapExamples.map_level48);
+        case 5:
+            return Utilities.clone2D(MapExamples.map_level50);
+        case 6:
             System.out.print("Please type the filename: ");
             int[][] result = MapExamples.readMapFromFile(in.nextLine());
             if (result != null)
                 return result;
             else
                 break;
-        case 5:
-            return MapExamples.readMapFromFile("MapFiles/level23.txt");
-
         }
-        return MapExamples.original_map.clone();
+        return MapExamples.map_level30.clone();
     }
 
     public static void main(String[] args) {

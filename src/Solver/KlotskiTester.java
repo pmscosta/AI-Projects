@@ -11,7 +11,7 @@ public class KlotskiTester {
 
     private static final short NUM_OF_ALGS = 5;
 
-    private static final short NUM_OF_MAPS = 3;
+    private static final short NUM_OF_MAPS = 5;
 
     private static final short NUM_OF_TIMES = 5;
 
