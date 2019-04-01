@@ -9,6 +9,7 @@ import java.util.Set;
 
 import Model.Block.*;
 
+@SuppressWarnings("Duplicates")
 public class Klotski implements Comparable<Klotski> {
 
     public Klotski parent;
@@ -225,6 +226,38 @@ public class Klotski implements Comparable<Klotski> {
             necessaryMoves += averageNecessaryMoves(map[x][y + 2]) + averageNecessaryMoves(map[x + 1][y + 2]);
         }
         return necessaryMoves;
+    }
+
+    public int heuristic3(){
+        int x = this.BigSquare.x;
+        int y = this.BigSquare.y;
+        int emptySpots = (this.map.length - x +2); //max 4*4
+
+        for (int i = x + 2; i < this.map.length; i++) {
+            if (map[i][y] != 0)
+                emptySpots += i -2;
+            if (map[i][y + 1] != 0)
+                emptySpots += i-2;
+
+            int first = 0,second= 0;
+            if(y==0){
+                first=2;
+                second=3;
+            }else if(y==1){
+                first=0;
+                second=3;
+            }else if(y==2) {
+                first = 0;
+                second = 1;
+            }
+
+
+            if (map[i][y + 1] != 0 &&map[i][y] != 0 && map[i][first] != 0 && map[i][second] != 0)
+                emptySpots+=i-2;
+
+
+        }
+        return  emptySpots;
     }
 
     public int heuristic2() {
