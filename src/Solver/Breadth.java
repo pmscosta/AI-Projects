@@ -19,7 +19,7 @@ public class Breadth {
 
     public Klotski solve() {
         int steps = 0;
-        long initial = Runtime.getRuntime().freeMemory();
+        long initial = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 
         while (!queue.isEmpty()) {
             steps++;
