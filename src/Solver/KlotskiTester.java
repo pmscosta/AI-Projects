@@ -9,7 +9,7 @@ public class KlotskiTester {
 
     private KlotskiSolver solver;
 
-    private static final short NUM_OF_ALGS = 5;
+    private static final short NUM_OF_ALGS = 4;
 
     private static final short NUM_OF_MAPS = 5;
 
@@ -45,6 +45,11 @@ public class KlotskiTester {
 
         if (args.length == 2) {
             tester.runTests(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+
+        } else if (args.length == 1) {
+
+            for (int i = 1; i <= NUM_OF_MAPS; i++)
+                tester.runTests(Integer.parseInt(args[0]), i);
 
         } else {
 
@@ -120,7 +125,7 @@ public class KlotskiTester {
 
         long startTime = System.currentTimeMillis();
 
-        Klotski end = solver.runAlgorithm(option, map);
+        Klotski end = solver.runAlgorithm(option, map, 1);
 
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;

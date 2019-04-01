@@ -10,6 +10,8 @@ import Model.Klotski;
 public class Greedy {
     private Set<Klotski> visited = new HashSet<>();
 
+    private int heuristic;
+
     private PriorityQueue<Klotski> priorityQueue = new PriorityQueue<Klotski>(11, new Comparator<Klotski>() {
         @Override
         public int compare(Klotski klotski, Klotski that) {
@@ -25,12 +27,16 @@ public class Greedy {
         }
     });
 
-    public Greedy(Klotski map) {
+    public Greedy(Klotski map, int heuristic) {
         priorityQueue.add(map);
+        this.heuristic = heuristic;
     }
 
     public int calculateH(Klotski map) {
-        return map.greedyV2() + map.g;
+        if (heuristic == 1)
+            return map.heuristic1();
+        else
+            return map.greedyV2();
     }
 
     public Klotski solve() {

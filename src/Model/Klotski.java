@@ -58,8 +58,9 @@ public class Klotski implements Comparable<Klotski> {
 
     public boolean isSolution() {
         return this.map[3][1] == -4;
-        // return this.blocks.get(new Point(3, 1)).x == 3 && this.blocks.get(new Point(3, 1)).y == 1
-        //         && this.blocks.get(new Point(3, 1)).type == 4;
+        // return this.blocks.get(new Point(3, 1)).x == 3 && this.blocks.get(new
+        // Point(3, 1)).y == 1
+        // && this.blocks.get(new Point(3, 1)).type == 4;
     }
 
     public ArrayList<Klotski> getNextBoards() {
@@ -228,38 +229,36 @@ public class Klotski implements Comparable<Klotski> {
         return necessaryMoves;
     }
 
-    public int heuristic3(){
+    public int heuristic3() {
         int x = this.BigSquare.x;
         int y = this.BigSquare.y;
         int[][] map = this.constructMap();
 
-        int emptySpots = (map.length - x +2); //max 4*4
+        int emptySpots = (map.length - x + 2); // max 4*4
 
         for (int i = x + 2; i < map.length; i++) {
             if (map[i][y] != 0)
-                emptySpots += i -2;
+                emptySpots += i - 2;
             if (map[i][y + 1] != 0)
-                emptySpots += i-2;
+                emptySpots += i - 2;
 
-            int first = 0,second= 0;
-            if(y==0){
-                first=2;
-                second=3;
-            }else if(y==1){
-                first=0;
-                second=3;
-            }else if(y==2) {
+            int first = 0, second = 0;
+            if (y == 0) {
+                first = 2;
+                second = 3;
+            } else if (y == 1) {
+                first = 0;
+                second = 3;
+            } else if (y == 2) {
                 first = 0;
                 second = 1;
             }
 
-
-            if (map[i][y + 1] != 0 &&map[i][y] != 0 && map[i][first] != 0 && map[i][second] != 0)
-                emptySpots+=i-2;
-
+            if (map[i][y + 1] != 0 && map[i][y] != 0 && map[i][first] != 0 && map[i][second] != 0)
+                emptySpots += i - 2;
 
         }
-        return  emptySpots;
+        return emptySpots;
     }
 
     public int heuristic2() {
@@ -299,53 +298,50 @@ public class Klotski implements Comparable<Klotski> {
 
     }
 
-    public int greedyV2(){
+    public int greedyV2() {
         int x = this.BigSquare.x;
         int y = this.BigSquare.y;
         int[][] map = this.constructMap();
 
-        int emptySpots = 4*(map.length - x +1); //max 4*4
+        int emptySpots = 4 * (map.length - x + 1); // max 4*4
 
         for (int i = x + 2; i < map.length; i++) {
             if (map[i][y] != 0)
-                emptySpots += i ;
+                emptySpots += i;
 
             if (map[i][y + 1] != 0)
                 emptySpots += i;
 
-            if (map[i][y] == 2 ||map[i][y] == 3)
-                emptySpots += i ;
-            if (map[i][y+1] == 2 ||map[i][y+1] == 3)
+            if (map[i][y] == 2 || map[i][y] == 3)
+                emptySpots += i;
+            if (map[i][y + 1] == 2 || map[i][y + 1] == 3)
                 emptySpots += i;
 
-
-            int first,second;
-            switch(y){
-                case 0:
-                    first=2;
-                    second=3;
-                    break;
-                case 1:
-                    first=0;
-                    second=3;
-                    break;
-                case 2:
-                    first = 0;
-                    second = 1;
-                    break;
-                default:
-                    first = 0;
-                    second= 0;
-                    break;
+            int first, second;
+            switch (y) {
+            case 0:
+                first = 2;
+                second = 3;
+                break;
+            case 1:
+                first = 0;
+                second = 3;
+                break;
+            case 2:
+                first = 0;
+                second = 1;
+                break;
+            default:
+                first = 0;
+                second = 0;
+                break;
             }
 
+            if (map[i][y + 1] != 0 && map[i][y] != 0 && map[i][second] != 0)
+                emptySpots += i * this.g;
 
-            if (map[i][y + 1] != 0 &&map[i][y] != 0 && map[i][second] != 0)
-                emptySpots+=i*this.g;
-
-            if (map[i][y + 1] != 0 &&map[i][y] != 0 && map[i][first] != 0)
-                emptySpots+=i*this.g;
-
+            if (map[i][y + 1] != 0 && map[i][y] != 0 && map[i][first] != 0)
+                emptySpots += i * this.g;
 
         }
         return emptySpots;

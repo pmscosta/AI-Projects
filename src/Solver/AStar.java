@@ -12,6 +12,7 @@ public class AStar {
     private Set<Klotski> visited = new HashSet<>();
     private HashMap<Klotski, Integer> mapF = new HashMap<>();
     private Double memoryMax = -1.0;
+    private int heuristic = 0;
 
     private PriorityQueue<Klotski> priorityQueue = new PriorityQueue<Klotski>(11, new Comparator<Klotski>() {
         @Override
@@ -28,21 +29,24 @@ public class AStar {
         }
     });
 
-    public AStar(Klotski map) {
+    public AStar(Klotski map, int heuristic) {
         priorityQueue.add(map);
+        this.heuristic = heuristic;
     }
 
     public int calculateH(Klotski map) {
-        return map.heuristic3();
+        if (heuristic == 1)
+            return map.heuristic3();
+        else
+            return map.heuristic2();
     }
-
 
     public Klotski solve() {
         int steps = 0;
         long initial = Runtime.getRuntime().freeMemory();
 
         while (!priorityQueue.isEmpty()) {
-            memoryMax = Double.max(memoryMax,Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+            memoryMax = Double.max(memoryMax, Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
 
             steps++;
             Klotski klotski = priorityQueue.poll();
@@ -52,7 +56,8 @@ public class AStar {
             if (klotski.isSolution()) {
                 System.out.println("Steps=" + steps);
                 priorityQueue.clear();
-                System.out.println("Memory usage= " +  ((int) (100*((memoryMax- initial)/Runtime.getRuntime().totalMemory()))) + "%");
+                System.out.println("Memory usage= "
+                        + ((int) (100 * ((memoryMax - initial) / Runtime.getRuntime().totalMemory()))) + "%");
                 return klotski;
             }
 

@@ -44,13 +44,39 @@ public class KlotskiSolver {
 
     }
 
+    public int selectHeuristic() {
+        System.out.println("*****   Choose the heuristic  *****");
+        System.out.println("*****      1 - Heuristic 1    *****");
+        System.out.println("*****      2 - Heuristic 2    *****");
+
+        int option = 0;
+
+        System.out.print("Select one of the above options: ");
+
+        while (option < 1 || option > 2) {
+            try {
+                option = in.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Please select one of the above options");
+                option = 0;
+            }
+            in.nextLine();
+        }
+        return option;
+    }
+
     public Klotski start(int option) {
+
+        int heuristic = 1;
+
+        if (option == 3 || option == 4)
+            heuristic = selectHeuristic();
 
         int[][] map = selectMap();
 
         long startTime = System.currentTimeMillis();
 
-        Klotski endNode = runAlgorithm(option, map);
+        Klotski endNode = runAlgorithm(option, map, heuristic);
 
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;
@@ -59,7 +85,7 @@ public class KlotskiSolver {
         return endNode;
     }
 
-    public Klotski runAlgorithm(int option, int[][] map) {
+    public Klotski runAlgorithm(int option, int[][] map, int heuristic) {
 
         Klotski klotski = new Klotski(map);
         Klotski endNode = null;
@@ -76,12 +102,13 @@ public class KlotskiSolver {
             break;
 
         case 3:
-            AStar aStar = new AStar(klotski);
+
+            AStar aStar = new AStar(klotski, heuristic);
             endNode = aStar.solve();
             break;
 
         case 4:
-            Greedy greedy = new Greedy(klotski);
+            Greedy greedy = new Greedy(klotski, heuristic);
             endNode = greedy.solve();
             break;
         case 5:
