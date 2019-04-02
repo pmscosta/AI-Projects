@@ -1,0 +1,7 @@
+
+
+Algorithm: Greedy	map: Easy	average: 149
+Algorithm: Greedy	map: Medium	average: 560
+Algorithm: Greedy	map: Hard	average: 897
+Algorithm: Greedy	map: Error	average: 1028
+Algorithm: Greedy	map: Error	average: 1061

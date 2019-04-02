@@ -125,7 +125,7 @@ public class KlotskiTester {
 
         long startTime = System.currentTimeMillis();
 
-        Klotski end = solver.runAlgorithm(option, map, 1);
+        Klotski end = solver.runAlgorithm(option, map, 2);
 
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;

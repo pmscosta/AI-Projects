@@ -2,6 +2,15 @@ package Model;
 
 public class Utilities {
 
+    public static String humanReadableByteCount(long bytes, boolean si) {
+        int unit = si ? 1000 : 1024;
+        if (bytes < unit)
+            return bytes + " B";
+        int exp = (int) (Math.log(bytes) / Math.log(unit));
+        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
+        return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
+    }
+
     public static final boolean DEBUG = true;
 
     public static void printMap(int[][] map) {
@@ -34,12 +43,12 @@ public class Utilities {
         }
     }
 
-    public static  int[][] clone2D(int[][] matrix){
-        int [][] myInt = new int[matrix.length][];
-       
-        for(int i = 0; i < matrix.length; i++){
+    public static int[][] clone2D(int[][] matrix) {
+        int[][] myInt = new int[matrix.length][];
+
+        for (int i = 0; i < matrix.length; i++) {
             int[] aMatrix = matrix[i];
-            int   aLength = aMatrix.length;
+            int aLength = aMatrix.length;
             myInt[i] = new int[aLength];
             System.arraycopy(aMatrix, 0, myInt[i], 0, aLength);
         }

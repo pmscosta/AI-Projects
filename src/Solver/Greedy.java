@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Set;
+import Model.Utilities;
 
 import Model.Klotski;
 
@@ -11,6 +12,8 @@ public class Greedy {
     private Set<Klotski> visited = new HashSet<>();
 
     private int heuristic;
+
+    private Double memoryMax = -1.0;
 
     private PriorityQueue<Klotski> priorityQueue = new PriorityQueue<Klotski>(11, new Comparator<Klotski>() {
         @Override
@@ -41,12 +44,19 @@ public class Greedy {
 
     public Klotski solve() {
         int steps = 0;
+
+        long initial = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         while (!priorityQueue.isEmpty()) {
             steps++;
+
+            memoryMax = Double.max(memoryMax, Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
             Klotski klotski = priorityQueue.poll();
 
             if (klotski.isSolution()) {
                 System.out.println("Steps=" + steps);
+
+                System.out.println(
+                        "Memory usage= " + Utilities.humanReadableByteCount((long) (memoryMax - initial), true));
                 priorityQueue.clear();
                 return klotski;
             }

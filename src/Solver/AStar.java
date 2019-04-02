@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Set;
+import Model.Utilities;
 
 import Model.Klotski;
 
@@ -43,7 +44,7 @@ public class AStar {
 
     public Klotski solve() {
         int steps = 0;
-        long initial = Runtime.getRuntime().freeMemory();
+        long initial = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 
         while (!priorityQueue.isEmpty()) {
             memoryMax = Double.max(memoryMax, Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
@@ -56,8 +57,8 @@ public class AStar {
             if (klotski.isSolution()) {
                 System.out.println("Steps=" + steps);
                 priorityQueue.clear();
-                System.out.println("Memory usage= "
-                        + ((int) (100 * ((memoryMax - initial) / Runtime.getRuntime().totalMemory()))) + "%");
+                System.out.println(
+                        "Memory usage= " + Utilities.humanReadableByteCount((long) (memoryMax - initial), true));
                 return klotski;
             }
 

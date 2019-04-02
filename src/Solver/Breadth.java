@@ -1,5 +1,6 @@
 package Solver;
 
+import Model.Utilities;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -23,12 +24,13 @@ public class Breadth {
 
         while (!queue.isEmpty()) {
             steps++;
-            memoryMax = Double.max(memoryMax,Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+            memoryMax = Double.max(memoryMax, Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
             Klotski klotski = queue.poll();
 
             if (klotski.isSolution()) {
                 System.out.println("Steps=" + steps);
-                System.out.println("Memory usage= " +  ((int) (100*((memoryMax- initial)/Runtime.getRuntime().totalMemory()))) + "%");
+                System.out.println(
+                        "Memory usage= " + Utilities.humanReadableByteCount((long) (memoryMax - initial), true));
                 queue.clear();
                 return klotski;
             }

@@ -13,6 +13,8 @@ public class IterativeDepth {
 
     public static final int MAX_DEPTH = Integer.MAX_VALUE;
 
+    private Double memoryMax = -1.0;
+
     public class IterativeKlotski {
         public Klotski klotski;
         public int depth;
@@ -79,10 +81,15 @@ public class IterativeDepth {
     }
 
     public Klotski DepthIterative() {
-
         int steps = 0;
+
+        long initial = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
         while (!stack.isEmpty()) {
             steps++;
+
+            memoryMax = Double.max(memoryMax, Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
+
             IterativeKlotski joined = stack.pop();
             Klotski klotski = joined.klotski;
             int curr_depth = joined.depth;
@@ -90,6 +97,9 @@ public class IterativeDepth {
 
                 if (klotski.isSolution()) {
                     System.out.println("Steps=" + steps);
+
+                    System.out.println(
+                            "Memory usage= " + Utilities.humanReadableByteCount((long) (memoryMax - initial), true));
                     stack.clear();
                     return klotski;
                 }
