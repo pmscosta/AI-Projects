@@ -18,9 +18,8 @@ from sklearn.metrics import classification_report, roc_curve, roc_auc_score
 from sklearn import svm
 import datetime
 
-
-
-
+import cmatrix
+from cmatrix import plot_confusion_matrix
 
 news_final_filename = "../dataset/News_Final_WO.csv"
 facebook_views_filename = "../dataset/facebook_views.csv"
@@ -33,11 +32,17 @@ facebook_views = facebook_views.drop_duplicates()
 
 df = news_final.merge(facebook_views, how='inner', on="IDLink")
 
+
+
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+
 title_size = df.Title.apply(lambda x: len(str(x).split(' ')))
-df['title_size'] = title_size
+df['title_size'] = scaler.fit_transform(title_size.values.reshape(-1, 1))
 
 headline_size  = df.Headline.apply(lambda x: len(str(x).split(' ')))
-df['headline_size'] = title_size
+df['headline_size'] = scaler.fit_transform(headline_size.values.reshape(-1, 1))
 
 days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
@@ -59,8 +64,11 @@ def dud_finder(popularity):
 
 df['is_dud'] = df['Facebook'].apply(dud_finder)
 
-features = ['SentimentTitle', 'SentimentHeadline'] + days
+features = ['title_size','headline_size','SentimentTitle', 'SentimentHeadline'] + days
 estimate = 'is_dud'
+
+df['SentimentTitle'] = scaler.fit_transform(df['SentimentTitle'].values.reshape(-1, 1))
+df['SentimentHeadline'] = scaler.fit_transform(df['SentimentHeadline'].values.reshape(-1, 1))
 
 X = df[features]
 y = df[estimate]
@@ -80,31 +88,67 @@ print(classification_report(y_test, y_pred_knn), sep='\n')
 
 
 
-
-
 df['prob_dud'] = knn.predict_proba(X)[:, 1]
 
-features = ['SentimentTitle', 'SentimentHeadline', 'prob_dud'] + days
+features = ['Topic', 'title_size','headline_size', 'SentimentTitle', 'SentimentHeadline', 'prob_dud'] + days
 views = 'Facebook'
 
 X = df[features]
 y = df[views]
 
+popular = y > 100
+unpopular = y <= 100
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 10)
+df.loc[popular,views] = 1
+df.loc[unpopular,views] = 0
 
-
-
-rf = RandomForestClassifier(n_estimators=5, criterion="entropy")
-clf_rf = rf.fit(X_train,y_train)
-y_pred_rf = rf.predict(X_test)
-predictedClassRF = clf_rf.predict(X_test)
+class_names = np.array(['Not popular','Popular'])
 
 
-print ("============Random Forest============")
-print ('MSE RF:', round(mean_squared_error(y_test, predictedClassRF), 4))
-print ('Accuracy:', round(accuracy_score(y_test, y_pred_rf), 4))
-print ('Precision Score:', round(precision_score(y_test, y_pred_rf), 4))
-print ('Recall Score:', round(recall_score(y_test, y_pred_rf, average='macro'), 4))
-print ('ROC AUC Score:', round(roc_auc_score(y_test, y_pred_rf), 4))
-print ('F1 Score:', round(f1_score(y_test, y_pred_rf, average='macro'), 4))
+
+
+categorical_feature_mask = X.dtypes==object
+categorical_cols = X.columns[categorical_feature_mask].tolist()
+
+
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+
+X[categorical_cols] = X[categorical_cols].apply(lambda col: le.fit_transform(col))
+
+from sklearn.preprocessing import OneHotEncoder
+ohe = OneHotEncoder(categorical_features = categorical_feature_mask, sparse=False)
+X_ohe = ohe.fit_transform(X)
+
+
+X_train, X_test, y_train, y_test = train_test_split(X_ohe, y, test_size = 0.2, random_state = 10)
+
+
+
+# estimator = MLPClassifier(activation='tanh', solver='sgd', alpha=0.0001, hidden_layer_sizes=(11, 11), learning_rate='constant')
+estimator = KNeighborsClassifier()
+# estimator = LogisticRegression()
+# estimator = RandomForestClassifier(n_estimators=100, criterion="entropy")
+# estimator = svm.SVC(gamma='scale')
+clf = estimator.fit(X_train, y_train)
+y_pred = estimator.predict(X_test)
+predictedClass = clf.predict(X_test)
+
+
+from sklearn.metrics import classification_report
+print('Results on the test set:')
+print(classification_report(y_test, predictedClass))
+
+
+
+np.set_printoptions(precision=2)
+plot_confusion_matrix(y_test, y_pred, classes=class_names, normalize=True)
+plt.show()
+
+
+print ('MSE:', round(mean_squared_error(y_test, predictedClass), 4))
+print ('Accuracy:', round(accuracy_score(y_test, y_pred), 4))
+print ('Precision Score:', round(precision_score(y_test, y_pred), 4))
+print ('Recall Score:', round(recall_score(y_test, y_pred, average='macro'), 4))
+print ('ROC AUC Score:', round(roc_auc_score(y_test, y_pred), 4))
+print ('F1 Score:', round(f1_score(y_test, y_pred, average='macro'), 4))

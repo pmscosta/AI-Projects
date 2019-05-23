@@ -197,10 +197,10 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 # X_train = sc.fit_transform(X_train)
 # X_test = sc.transform(X_test)
 
-rf = RandomForestClassifier(n_estimators=100, criterion="entropy")
-clf_rf = rf.fit(X_train,y_train)
-y_pred_rf = rf.predict(X_test)
-predictedClassRF = clf_rf.predict(X_test)
+# rf = RandomForestClassifier(n_estimators=100, criterion="entropy")
+# clf_rf = rf.fit(X_train,y_train)
+# y_pred_rf = rf.predict(X_test)
+# predictedClassRF = clf_rf.predict(X_test)
 
 # dt = DecisionTreeClassifier(criterion="gini", splitter="random")
 # clf_dt = dt.fit(X_train, y_train)
