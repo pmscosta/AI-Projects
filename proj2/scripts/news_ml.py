@@ -5,7 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import BernoulliNB
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, StratifiedKFold
 from sklearn import model_selection
 from sklearn.metrics import accuracy_score, mean_squared_error, average_precision_score,f1_score, r2_score
 from sklearn.metrics import precision_score, recall_score, roc_auc_score, roc_auc_score, roc_curve
@@ -19,7 +19,9 @@ from sklearn import svm
 import datetime
 
 import cmatrix
+import lcurve
 from cmatrix import plot_confusion_matrix
+from lcurve import plot_learning_curve
 
 news_final_filename = "../dataset/News_Final_WO.csv"
 facebook_views_filename = "../dataset/facebook_views.csv"
@@ -76,7 +78,7 @@ y = df[estimate]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 10)
 
 
-knn = KNeighborsClassifier()
+knn = KNeighborsClassifier(n_neighbors=5)
 clf_knn = knn.fit(X_train, y_train)
 y_pred_knn = knn.predict(X_test)
 
@@ -126,7 +128,7 @@ X_train, X_test, y_train, y_test = train_test_split(X_ohe, y, test_size = 0.2, r
 
 
 # estimator = MLPClassifier(activation='tanh', solver='sgd', alpha=0.0001, hidden_layer_sizes=(11, 11), learning_rate='constant')
-estimator = KNeighborsClassifier()
+estimator = KNeighborsClassifier(n_neighbors=5)
 # estimator = LogisticRegression()
 # estimator = RandomForestClassifier(n_estimators=100, criterion="entropy")
 # estimator = svm.SVC(gamma='scale')
@@ -141,10 +143,19 @@ print(classification_report(y_test, predictedClass))
 
 
 
+# Confusion matrix
 np.set_printoptions(precision=2)
 plot_confusion_matrix(y_test, y_pred, classes=class_names, normalize=True)
 plt.show()
 
+
+# Learning curve
+
+title = "Learning Curves KNN"
+# cv = ShuffleSplit(n_splits=1, test_size=0.2, random_state=0)
+cv = StratifiedKFold(n_splits=5, random_state=42)
+plot_learning_curve(estimator, title, X, y, ylim=(0.7, 1.01), cv=cv, n_jobs=4)
+plt.show()
 
 print ('MSE:', round(mean_squared_error(y_test, predictedClass), 4))
 print ('Accuracy:', round(accuracy_score(y_test, y_pred), 4))
